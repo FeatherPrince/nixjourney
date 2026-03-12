@@ -19,7 +19,7 @@ instalation
 ```
 nixos-generate-config
 nix-shell -p git
-
+git clone https://github.com/FeatherPrince/nixjourney
 ```
 
 
