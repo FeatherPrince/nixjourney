@@ -1,8 +1,8 @@
 {
   description = "A very basic flake";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+	inputs = {
+	nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 		home-manager = {
 			url = "github:nix-community/home-manager/nixpkgs-unstable";
 			inputs.nixpkgs.follows = "nixpkgs";
@@ -23,7 +23,7 @@
 						backupFileExtension = "backup";
 					};
 				}
-			]
+			];
 		};
-  };
+	};
 }
