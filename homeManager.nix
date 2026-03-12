@@ -1,6 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, userName , ... }:
 
 {
+  # home-manager.extraSpecialArgs = { inherit userName; };  
   home-manager.users.feather = {
   home.stateVersion = "25.11";
   };
@@ -13,3 +14,5 @@
     ];
   };
 }
+
+# https://github.com/nix-community/home-manager

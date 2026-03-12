@@ -15,7 +15,103 @@
     ./homeManager.nix
   ];
 
+	# Configure keymap in X11
+	services = {
+    xserver.xkb = {
+      layout = "pl";
+      variant = "";
+    };
+    displayManager.ly.enable = true;
+  };
+
+	# Configure console keymap
+	console.keyMap = "pl2";
+
+	# Enable CUPS to print documents.
+	services.printing.enable = true;
+
+  # console = {
+  #   font = "ter-v32n";
+  #   packages = with pkgs; [ terminus_font ];
+  # };
+
+	i18n.defaultLocale = "en_US.UTF-8";
+
+	i18n.extraLocaleSettings = {
+		LC_ADDRESS = "pl_PL.UTF-8";
+		LC_IDENTIFICATION = "pl_PL.UTF-8";
+		LC_MEASUREMENT = "pl_PL.UTF-8";
+		LC_MONETARY = "pl_PL.UTF-8";
+		LC_NAME = "pl_PL.UTF-8";
+		LC_NUMERIC = "pl_PL.UTF-8";
+		LC_PAPER = "pl_PL.UTF-8";
+		LC_TELEPHONE = "pl_PL.UTF-8";
+		LC_TIME = "pl_PL.UTF-8";
+	};
+
+    # services.xserver.excludePackages = with pkgs; [xterm]; 
+
+		environment.systemPackages = with pkgs; [
+    feh
+		mpv
+
+		bat
+		eza
+		ncdu
+		skim
+		fastfetch
+		yt-dlp
+		btop
+    git
+    ];
+		fonts.packages = with pkgs; [
+		nerd-fonts.hack
+		nerd-fonts.symbols-only
+		nerd-fonts.noto
+		noto-fonts
+		noto-fonts-color-emoji
+		noto-fonts-monochrome-emoji
+		noto-fonts-cjk-sans
+		noto-fonts-cjk-serif
+		openmoji-color
+		openmoji-black
+		twitter-color-emoji
+		twemoji-color-font
+		#whatsapp-emoji-font #bugged
+		unicode-emoji
+		liberation_ttf
+		fira-code
+		fira-code-symbols
+		mplus-outline-fonts.githubRelease
+		dina-font
+		proggyfonts
+		ipafont
+		ipaexfont
+		weather-icons
+#		noto-fonts
+#		noto-fonts-lgc-plus
+#		noto-fonts-cjk-sans
+#		noto-fonts-cjk-serif
+#		noto-fonts-color-emoji
+#		noto-fonts-emoji-blob-bin
+#		noto-fonts-monochrome-emoji
+#		nerd-fonts.symbols-only
+#		font-awesome
+#		font-awesome_4
+#		font-awesome_5
+	];
+
+  # enable experimental features that are disabled by default
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+
+
+
+  # Enable OpenTabletDriver
+  hardware.opentabletdriver.enable = true;
+  # Required by OpenTabletDriver
+  hardware.uinput.enable = true;
+  boot.kernelModules = [ "uinput" ];
 
 
   # This value determines the NixOS release from which the default
