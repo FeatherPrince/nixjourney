@@ -6,7 +6,7 @@
 		home-manager = {
 			url = "github:nix-community/home-manager/nixpkgs-unstable";
 			inputs.nixpkgs.follows = "nixpkgs";
-		}
+		};
   };
 
   outputs = { self, nixpkgs, home-manager, ... }: {
@@ -21,9 +21,9 @@
 						useUserPackages = true;
 						users.feather = import ./home.nix;
 						backupFileExtension = "backup";
-					}
+					};
 				}
 			]
-		}
+		};
   };
 }
