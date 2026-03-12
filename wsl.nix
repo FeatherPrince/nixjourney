@@ -2,5 +2,5 @@
 
 {
   wsl.enable = true;
-  wsl.defaultUser = "nixos";
+  wsl.defaultUser = "wsl-nixos";
 }
