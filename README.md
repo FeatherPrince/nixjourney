@@ -32,6 +32,9 @@ wrote: "/home/nixos/nixconfig/flake.nix
 
 # Resources
 [WSL](https://github.com/nix-community/NixOS-WSL)
+
 [official website](https://nixos.org/)
+
 [extranix](https://extranix.com/)
+
 [MyNixOS](https://mynixos.com/)
