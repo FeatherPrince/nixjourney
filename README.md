@@ -2,6 +2,8 @@
 # Readme
 an attempt at learning nix
 
+the end goal is to have a 'one click install' for any given machine
+
 
 
 # todo
@@ -11,8 +13,13 @@ an attempt at learning nix
 - [ ] set up flakes
 - [ ] set up flakes.lock
 - [ ] the final goal is to have a one line install that works on WSL and standalone
-
-
+- [ ] `nixos-rebuild switch --flake .#nixos` for WSL
+- [ ] `nixos-rebuild switch --flake .#nixos` for bare metal
+- [ ] `nixos-rebuild switch --flake .#nixos` for arm
+- [ ] install script
+- [ ] upgrade script
+- [ ] update script
+- [ ] clear nix store cache script
 
 
 instalation

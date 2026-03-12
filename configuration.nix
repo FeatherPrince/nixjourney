@@ -10,9 +10,14 @@
 {
   imports = [
     # include NixOS-WSL modules
-    <nixos-wsl/modules>
-    ./wsl.nix
+    # inputs.nixos-wsl.nixosModules.default
+    # <nixos-wsl/modules>
     ./homeManager.nix
+
+# either or, importing hardware-config.nix doesn't work on wsl
+    ./wsl.nix
+
+	/etc/nixos/hardware-configuration.nix
   ];
 
 	# Configure keymap in X11

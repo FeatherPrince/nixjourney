@@ -1,6 +1,13 @@
 { config, lib, pkgs, userName, ... }:
 
 {
+  imports = [
+    # include NixOS-WSL modules
+    # inputs.nixos-wsl.nixosModules.default
+    <nixos-wsl/modules>
+  ];
+
+
   wsl = {
     enable = true;
     defaultUser = userName;
