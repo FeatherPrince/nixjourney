@@ -8,43 +8,47 @@
 { config, lib, pkgs, userName, ... }:
 
 {
-  imports = [
-    # include NixOS-WSL modules
-    # inputs.nixos-wsl.nixosModules.default
-    # <nixos-wsl/modules>
-    ./homeManager.nix
+	imports = [
+	# include NixOS-WSL modules
+	# inputs.nixos-wsl.nixosModules.default
+	# <nixos-wsl/modules>
+	./homeManager.nix
 
-# either or, importing hardware-config.nix doesn't work on wsl
-    ./wsl.nix
-
+	# either or, importing hardware-config.nix doesn't work on wsl
+	./wsl.nix
+	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
-  ];
+	];
 
 	programs.bash.promptInit = ''
-    export PS1='[\u@\H]\n[\w][\$]'
-  '';
+	export PS1='[\u@\H]\n[\w][\$]'
+	'';
 
 	programs.zsh = {
 	enable = true;
 	autosuggestions.enable = true;
 	syntaxHighlighting.enable = true;
 	enableCompletion = true;
+	shellAliases = {
+		cat = "bat";
+		ls = "eza --icons=always -X -F=always";
+	};
 	};
 
 	users.users.${userName}.shell = pkgs.zsh;
 
 	# Configure keymap in X11
 	services = {
-    # desktopManager = {
-    #   plasma6.enable = true;
-    #   plasma6.enableQt5Integration = true;
-    # };
-    xserver.xkb = {
-      layout = "pl";
-      variant = "";
-    };
-    displayManager.ly.enable = true;
-  };
+	# desktopManager = {
+	#   plasma6.enable = true;
+	#   plasma6.enableQt5Integration = true;
+	# };
+	xserver.xkb = {
+		layout = "pl";
+		variant = "";
+	};
+	displayManager.ly.enable = true;
+	};
 
 	# Configure console keymap
 	console.keyMap = "pl2";
@@ -52,10 +56,10 @@
 	# Enable CUPS to print documents.
 	services.printing.enable = true;
 
-  # console = {
-  #   font = "ter-v32n";
-  #   packages = with pkgs; [ terminus_font ];
-  # };
+	# console = {
+	#   font = "ter-v32n";
+	#   packages = with pkgs; [ terminus_font ];
+	# };
 
 	i18n.defaultLocale = "en_US.UTF-8";
 
@@ -71,10 +75,10 @@
 		LC_TIME = "pl_PL.UTF-8";
 	};
 
-    # services.xserver.excludePackages = with pkgs; [xterm]; 
+	# services.xserver.excludePackages = with pkgs; [xterm]; 
 
 		environment.systemPackages = with pkgs; [
-    feh
+	feh
 		mpv
 
 		bat
@@ -84,16 +88,16 @@
 		fastfetch
 		yt-dlp
 		btop
-   		git
+		git
 		ripgrep
-		fd
-		nsh
+		fd	#	search for strings inside of files
+		nsh	#	search for file names
 
 		zsh-autosuggestions
 		zsh-syntax-highlighting
 		zsh-completions
 
-    ];
+	];
 		fonts.packages = with pkgs; [
 		nerd-fonts.hack
 		nerd-fonts.symbols-only
@@ -131,24 +135,24 @@
 #		font-awesome_5
 	];
 
-  # enable experimental features that are disabled by default
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+	# enable experimental features that are disabled by default
+	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 
 
 
-  # Enable OpenTabletDriver
-  hardware.opentabletdriver.enable = true;
-  # Required by OpenTabletDriver
-  hardware.uinput.enable = true;
-  boot.kernelModules = [ "uinput" ];
+	# Enable OpenTabletDriver
+	hardware.opentabletdriver.enable = true;
+	# Required by OpenTabletDriver
+	hardware.uinput.enable = true;
+	boot.kernelModules = [ "uinput" ];
 
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+	# This value determines the NixOS release from which the default
+	# settings for stateful data, like file locations and database versions
+	# on your system were taken. It's perfectly fine and recommended to leave
+	# this value at the release version of the first install of this system.
+	# Before changing this value read the documentation for this option
+	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+	system.stateVersion = "25.11"; # Did you read the comment?
 }
