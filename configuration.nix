@@ -25,15 +25,23 @@
 	'';
 
 	programs.zsh = {
-	enable = true;
-	autosuggestions.enable = true;
-	syntaxHighlighting.enable = true;
-	enableCompletion = true;
-	shellAliases = {
-		cat = "bat";
-		ls = "eza --icons=always -X -F=always";
+		enable = true;
+		autosuggestions.enable = true;
+		syntaxHighlighting.enable = true;
+		enableCompletion = true;
+		shellAliases = {
+			cat = "bat";
+			ls = "eza --icons=always -X -F=always";
+		};
 	};
-	};
+
+	# security.sudo.wheelNeedsPassword = true;
+	# # security.sudo.extraConfig = ''
+	# # 	Defaults pwfeedback
+	# # '';
+	# security.pam.services.common-auth.text = lib.mkForce ''
+	# 		auth required pam_unix.so try_first_pass likeauth pwfeedback
+	# 	'';
 
 	users.users.${userName}.shell = pkgs.zsh;
 
@@ -78,7 +86,7 @@
 	# services.xserver.excludePackages = with pkgs; [xterm]; 
 
 		environment.systemPackages = with pkgs; [
-	feh
+		feh
 		mpv
 
 		bat
