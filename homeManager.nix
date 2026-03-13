@@ -2,11 +2,11 @@
 
 {
   # home-manager.extraSpecialArgs = { inherit userName; };  
-  home-manager.users.feather = {
+  home-manager.users.${userName} = {
   home.stateVersion = "25.11";
   };
 
-  users.users.feather = {
+  users.users.${userName} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [

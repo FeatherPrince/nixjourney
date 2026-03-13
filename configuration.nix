@@ -5,7 +5,7 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, userName, ... }:
 
 {
   imports = [
@@ -20,12 +20,25 @@
 	/etc/nixos/hardware-configuration.nix
   ];
 
+	programs.bash.promptInit = ''
+    export PS1='[\u@\H]\n[\w][\$]'
+  '';
+
+	programs.zsh = {
+	enable = true;
+	autosuggestions.enable = true;
+	syntaxHighlighting.enable = true;
+	enableCompletion = true;
+	};
+
+	users.users.${userName}.shell = pkgs.zsh;
+
 	# Configure keymap in X11
 	services = {
-    desktopManager = {
-      plasma6.enable = true;
-      plasma6.enableQt5Integration = true;
-    };
+    # desktopManager = {
+    #   plasma6.enable = true;
+    #   plasma6.enableQt5Integration = true;
+    # };
     xserver.xkb = {
       layout = "pl";
       variant = "";
@@ -71,7 +84,15 @@
 		fastfetch
 		yt-dlp
 		btop
-    git
+   		git
+		ripgrep
+		fd
+		nsh
+
+		zsh-autosuggestions
+		zsh-syntax-highlighting
+		zsh-completions
+
     ];
 		fonts.packages = with pkgs; [
 		nerd-fonts.hack
