@@ -15,10 +15,22 @@
 	./homeManager.nix
 
 	# either or, importing hardware-config.nix doesn't work on wsl
-	./wsl.nix
+	# ./wsl.nix
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
+	./hyprland.nix
 	];
+
+
+	# Bootloader.
+	boot.loader.systemd-boot.enable = true;
+	boot.loader.efi.canTouchEfiVariables = true;
+
+	time.timeZone = "Europe/Warsaw";
+
+	services.displayManager.ly.enable = true;
+# 	services.desktopManager.plasma6.enable = true;
+# 	services.desktopManager.plasma6.enableQt5Integration = true;
 
 	programs.bash.promptInit = ''
 	export PS1='[\u@\H]\n[\w][\$]'
@@ -46,17 +58,17 @@
 	users.users.${userName}.shell = pkgs.zsh;
 
 	# Configure keymap in X11
-	services = {
-	# desktopManager = {
-	#   plasma6.enable = true;
-	#   plasma6.enableQt5Integration = true;
-	# };
-	xserver.xkb = {
-		layout = "pl";
-		variant = "";
-	};
-	displayManager.ly.enable = true;
-	};
+# 	services = {
+# 	desktopManager = {
+# 	  plasma6.enable = true;
+# 	  plasma6.enableQt5Integration = true;
+# 	};
+# 	xserver.xkb = {
+# 		layout = "pl";
+# 		variant = "";
+# 	};
+# 	displayManager.ly.enable = true;
+# 	};
 
 	# Configure console keymap
 	console.keyMap = "pl2";
@@ -104,6 +116,10 @@
 		zsh-autosuggestions
 		zsh-syntax-highlighting
 		zsh-completions
+
+		firefox
+		wezterm
+		vscodium
 
 	];
 		fonts.packages = with pkgs; [

@@ -22,4 +22,6 @@
 		initExtra = ''
 	'';
 	};
+	services.clipse.enable = true;
+	services.hyprpolkitagent.enable = true;
 }
