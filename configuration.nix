@@ -120,7 +120,7 @@
 		firefox
 		wezterm
 		vscodium
-
+		bitwarden-desktop
 	];
 		fonts.packages = with pkgs; [
 		nerd-fonts.hack
