@@ -21,6 +21,7 @@
 #
 # 	};
 home-manager.users.${userName} = {
+		services.hyprpolkitagent.enable = true;
     # This creates a symlink at ~/.config/hypr/hyprland.conf
     xdg.configFile."hypr/hyprland.conf".source = ./configs/hyprland.conf;
     xdg.configFile."hypr/hyprlauncher.conf".source = ./configs/hyprlauncher.conf;
