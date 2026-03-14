@@ -28,5 +28,9 @@
     bitwarden-desktop
 
     discord
+    
+    gimp
+    blender
+    libreoffice-fresh
     ];
 }
