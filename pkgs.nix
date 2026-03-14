@@ -26,5 +26,7 @@
     wezterm
     vscodium
     bitwarden-desktop
+
+    discord
     ];
 }
