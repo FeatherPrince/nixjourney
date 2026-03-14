@@ -34,10 +34,10 @@
 	services.displayManager.ly.enable = true;
 #	services.displayManager.lemurs.enable = true;
 #	services.displayManager.sddm.enable = true;
-	services.xserver.enable = true;
+	# services.xserver.enable = true;
 
- 	services.desktopManager.plasma6.enable = true;
- 	services.desktopManager.plasma6.enableQt5Integration = true;
+ 	# services.desktopManager.plasma6.enable = true;
+ 	# services.desktopManager.plasma6.enableQt5Integration = true;
 
 	programs.bash.promptInit = ''
 	export PS1='[\u@\H]\n[\w][\$]'
