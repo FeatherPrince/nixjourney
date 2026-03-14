@@ -8,7 +8,7 @@
 
   users.users.${userName} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       git
     ];

@@ -19,18 +19,25 @@
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
 	./hyprland.nix
+	./locale.nix
+	./pkgs.nix
+	./fonts.nix
 	];
+	programs.uwsm.enable = true;
+
 
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	time.timeZone = "Europe/Warsaw";
-
 	services.displayManager.ly.enable = true;
-# 	services.desktopManager.plasma6.enable = true;
-# 	services.desktopManager.plasma6.enableQt5Integration = true;
+#	services.displayManager.lemurs.enable = true;
+#	services.displayManager.sddm.enable = true;
+	services.xserver.enable = true;
+
+ 	services.desktopManager.plasma6.enable = true;
+ 	services.desktopManager.plasma6.enableQt5Integration = true;
 
 	programs.bash.promptInit = ''
 	export PS1='[\u@\H]\n[\w][\$]'
@@ -47,117 +54,20 @@
 		};
 	};
 
-	# security.sudo.wheelNeedsPassword = true;
-	# # security.sudo.extraConfig = ''
-	# # 	Defaults pwfeedback
-	# # '';
-	# security.pam.services.common-auth.text = lib.mkForce ''
-	# 		auth required pam_unix.so try_first_pass likeauth pwfeedback
-	# 	'';
+	users.users.${userName} = {
+		shell = pkgs.zsh;
+		extraGroups = [ "networkmanager" "wheel" ];
+	};
 
-	users.users.${userName}.shell = pkgs.zsh;
-
-	# Configure keymap in X11
-# 	services = {
-# 	desktopManager = {
-# 	  plasma6.enable = true;
-# 	  plasma6.enableQt5Integration = true;
-# 	};
-# 	xserver.xkb = {
-# 		layout = "pl";
-# 		variant = "";
-# 	};
-# 	displayManager.ly.enable = true;
-# 	};
 
 	# Configure console keymap
-	console.keyMap = "pl2";
 
 	# Enable CUPS to print documents.
 	services.printing.enable = true;
 
-	# console = {
-	#   font = "ter-v32n";
-	#   packages = with pkgs; [ terminus_font ];
-	# };
-
-	i18n.defaultLocale = "en_US.UTF-8";
-
-	i18n.extraLocaleSettings = {
-		LC_ADDRESS = "pl_PL.UTF-8";
-		LC_IDENTIFICATION = "pl_PL.UTF-8";
-		LC_MEASUREMENT = "pl_PL.UTF-8";
-		LC_MONETARY = "pl_PL.UTF-8";
-		LC_NAME = "pl_PL.UTF-8";
-		LC_NUMERIC = "pl_PL.UTF-8";
-		LC_PAPER = "pl_PL.UTF-8";
-		LC_TELEPHONE = "pl_PL.UTF-8";
-		LC_TIME = "pl_PL.UTF-8";
-	};
-
 	# services.xserver.excludePackages = with pkgs; [xterm]; 
+		nixpkgs.config.allowUnfree = true;
 
-		environment.systemPackages = with pkgs; [
-		feh
-		mpv
-
-		bat
-		eza
-		ncdu
-		skim
-		fastfetch
-		yt-dlp
-		btop
-		git
-		ripgrep
-		fd	#	search for strings inside of files
-		nsh	#	search for file names
-
-		zsh-autosuggestions
-		zsh-syntax-highlighting
-		zsh-completions
-
-		firefox
-		wezterm
-		vscodium
-		bitwarden-desktop
-	];
-		fonts.packages = with pkgs; [
-		nerd-fonts.hack
-		nerd-fonts.symbols-only
-		nerd-fonts.noto
-		noto-fonts
-		noto-fonts-color-emoji
-		noto-fonts-monochrome-emoji
-		noto-fonts-cjk-sans
-		noto-fonts-cjk-serif
-		openmoji-color
-		openmoji-black
-		twitter-color-emoji
-		twemoji-color-font
-		#whatsapp-emoji-font #bugged
-		unicode-emoji
-		liberation_ttf
-		fira-code
-		fira-code-symbols
-		mplus-outline-fonts.githubRelease
-		dina-font
-		proggyfonts
-		ipafont
-		ipaexfont
-		weather-icons
-#		noto-fonts
-#		noto-fonts-lgc-plus
-#		noto-fonts-cjk-sans
-#		noto-fonts-cjk-serif
-#		noto-fonts-color-emoji
-#		noto-fonts-emoji-blob-bin
-#		noto-fonts-monochrome-emoji
-#		nerd-fonts.symbols-only
-#		font-awesome
-#		font-awesome_4
-#		font-awesome_5
-	];
 
 	# enable experimental features that are disabled by default
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
