@@ -12,6 +12,7 @@
 	programs.uwsm.enable = true;
 	programs.hyprland.xwayland.enable = true;
 
+
 # 	services.hyprlauncher.enable = true;
 	environment.systemPackages = with pkgs; [
 		xdg-desktop-portal-hyprland
@@ -27,12 +28,21 @@
 		hyprsysteminfo
 		hyprcursor
 		hyprlauncher
+		hyprshot
 	];
 	# wayland.windowManager.hyprland.settings = {
 	# 
 	# };
 	home-manager.users.${userName} = {
 		services.hyprpolkitagent.enable = true;
+		programs.hyprshot.enable = true;
+		# services.mako.enable = true; # notification daemon
+		programs.hyprpanel = {
+			enable = true;
+			systemd.enable = true;
+		};
+		
+
 		# This creates a symlink at ~/.config/hypr/hyprland.conf
 		xdg.configFile."hypr/hyprland.conf".source = ./configs/hyprland.conf;
 		xdg.configFile."hypr/hyprlauncher.conf".source = ./configs/hyprlauncher.conf;
