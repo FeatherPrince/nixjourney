@@ -1,11 +1,22 @@
 { pkgs, userName,  ... }:
 
 {
-	programs.hyprland.withUWSM = true;
+
+
+	programs.iio-hyprland.enable = true;
 	programs.hyprland.enable = true;
+	services.hypridle.enable = true;
+	programs.hyprland.withUWSM = true;
 	programs.hyprlock.enable = true;
+	services.displayManager.dms-greeter.compositor.name = "hyprland";
+	programs.uwsm.enable = true;
+	programs.hyprland.xwayland.enable = true;
+
 # 	services.hyprlauncher.enable = true;
 	environment.systemPackages = with pkgs; [
+		xdg-desktop-portal-hyprland
+		iio-hyprland
+
 		hyprpaper
 		hyprpicker
 		hypridle
@@ -17,16 +28,16 @@
 		hyprcursor
 		hyprlauncher
 	];
-# 	wayland.windowManager.hyprland.settings = {
-#
-# 	};
-home-manager.users.${userName} = {
-	services.hyprpolkitagent.enable = true;
-    # This creates a symlink at ~/.config/hypr/hyprland.conf
-    xdg.configFile."hypr/hyprland.conf".source = ./configs/hyprland.conf;
-    xdg.configFile."hypr/hyprlauncher.conf".source = ./configs/hyprlauncher.conf;
+	# wayland.windowManager.hyprland.settings = {
+	# 
+	# };
+	home-manager.users.${userName} = {
+		services.hyprpolkitagent.enable = true;
+		# This creates a symlink at ~/.config/hypr/hyprland.conf
+		xdg.configFile."hypr/hyprland.conf".source = ./configs/hyprland.conf;
+		xdg.configFile."hypr/hyprlauncher.conf".source = ./configs/hyprlauncher.conf;
 
-    # You can even do it for the whole folder
-#     xdg.configFile."waybar".source = ./configs/waybar-folder;
-  };
+		# You can even do it for the whole folder
+		#	xdg.configFile."waybar".source = ./configs/waybar-folder;
+	};
 }

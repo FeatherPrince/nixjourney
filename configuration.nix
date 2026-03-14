@@ -23,9 +23,6 @@
 	./pkgs.nix
 	./fonts.nix
 	];
-	programs.uwsm.enable = true;
-
-
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
