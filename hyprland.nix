@@ -1,7 +1,7 @@
 { pkgs, userName,  ... }:
 
 {
-
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1"; # not used because it's already in the config
 
 	programs.iio-hyprland.enable = true;
 	programs.hyprland.enable = true;
