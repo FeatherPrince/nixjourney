@@ -8,7 +8,7 @@ the end goal is to have a 'one click install' for any given machine
 
 # todo
 
-- [ ] file with configuration variables that can be used in other files
+<!-- - [ ] file with configuration variables that can be used in other files
 - [ ] set up home manager
 - [ ] set up flakes
 - [ ] set up flakes.lock
@@ -19,7 +19,9 @@ the end goal is to have a 'one click install' for any given machine
 - [ ] install script
 - [ ] upgrade script
 - [ ] update script
-- [ ] clear nix store cache script
+- [ ] clear nix store cache script -->
+
+- [ ] script rework, test script (dry-activate), upgrade after boot (updates flake lock), update after boot 
 
 
 instalation
