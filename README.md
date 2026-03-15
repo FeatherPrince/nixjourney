@@ -23,6 +23,10 @@ the end goal is to have a 'one click install' for any given machine
 
 - [ ] script rework, test script (dry-activate), upgrade after boot (updates flake lock), update after boot 
 
+# Notes
+When dual booting this can be used to make windows use UTC time insead of local time to avoid having to sync time when booting into windows from linux, run this in cmd as an admin
+
+```reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\TimeZoneInformation" /v RealTimeIsUniversal /t REG_DWORD /d 1 /f```
 
 instalation
 ```
