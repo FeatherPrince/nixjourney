@@ -39,7 +39,8 @@
 	programs.bash.promptInit = ''
 	export PS1='[\u@\H]\n[\w][\$]'
 	'';
-
+	programs.steam.enable =  true;
+	
 	programs.zsh = {
 		enable = true;
 		autosuggestions.enable = true;
