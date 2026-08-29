@@ -22,13 +22,15 @@
 	./locale.nix
 	./pkgs.nix
 	./fonts.nix
+	# ./moduleNoctalia.nix
 	];
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	services.displayManager.ly.enable = true;
+	# services.displayManager.ly.enable = true;
+	services.displayManager.noctalia-greeter.enable = true;
 #	services.displayManager.lemurs.enable = true;
 #	services.displayManager.sddm.enable = true;
 	# services.xserver.enable = true;
@@ -37,7 +39,7 @@
  	# services.desktopManager.plasma6.enableQt5Integration = true;
 
 	programs.bash.promptInit = ''
-	export PS1='[\u@\H]\n[\w][\$]'
+	export PS1='[\u@\H]\n[\w][\$] '
 	'';
 	programs.steam.enable =  true;
 	
@@ -52,8 +54,15 @@
 		};
 	};
 
+	  programs.noctalia = {
+    enable = true;
+
+    # Enables NetworkManager, Bluetooth, UPower, and a power profile service.
+    recommendedServices.enable = true;
+  };
+
 	users.users.${userName} = {
-		shell = pkgs.zsh;
+		# shell = pkgs.zsh;
 		extraGroups = [ "networkmanager" "wheel" ];
 	};
 

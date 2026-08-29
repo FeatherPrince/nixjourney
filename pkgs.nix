@@ -3,34 +3,48 @@
 {
     programs.firefox.enable = true;
     environment.systemPackages = with pkgs; [
-    feh
-    mpv
-
+    # this sounds like a reasonable way of splitting packages: tty, tui, gui, plugin, daemon/service
+    #######
+    # tty #
+    #######
     bat
     eza
     ncdu
     skim
     fastfetch
     yt-dlp
-    btop
     git
     ripgrep
     fd	#	search for strings inside of files
     nsh	#	search for file names
-
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    zsh-completions
-
+    #######
+    # tui #
+    #######
+    btop
+    #######
+    # gui #
+    #######
+    mpv
     firefox
     wezterm
     vscodium
     bitwarden-desktop
-
     discord
-    
     gimp
     blender
-    libreoffice-fresh
+    libreoffice-stable
+    zed-editor-fhs
+    # ollama
+    # ollama-vulkan
+    ollama-rocm
+    # ollama-cuda
+    # ollama-cpu
+    # feh # requires x11
+    ###########
+    # plugins #
+    ###########
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-completions
     ];
 }

@@ -37,15 +37,11 @@
 		services.hyprpolkitagent.enable = true;
 		programs.hyprshot.enable = true;
 		# services.mako.enable = true; # notification daemon
-		programs.hyprpanel = {
-			enable = true;
-			systemd.enable = true;
-		};
 		
 
-		# This creates a symlink at ~/.config/hypr/hyprland.conf
-		xdg.configFile."hypr/hyprland.conf".source = ./configs/hyprland.conf;
-		xdg.configFile."hypr/hyprlauncher.conf".source = ./configs/hyprlauncher.conf;
+		# This creates a symlink at ~/.config/hypr/hyprland.lua
+		xdg.configFile."hypr/hyprland.lua".source = ./configs/hyprland.lua;
+		# xdg.configFile."hypr/hyprlauncher.conf".source = ./configs/hyprlauncher.conf;
 
 		# You can even do it for the whole folder
 		#	xdg.configFile."waybar".source = ./configs/waybar-folder;
