@@ -31,13 +31,13 @@
 		hyprshot
 	];
 	# wayland.windowManager.hyprland.settings = {
-	# 
+	#
 	# };
 	home-manager.users.${userName} = {
 		services.hyprpolkitagent.enable = true;
 		programs.hyprshot.enable = true;
 		# services.mako.enable = true; # notification daemon
-		
+
 
 		# This creates a symlink at ~/.config/hypr/hyprland.lua
 		xdg.configFile."hypr/hyprland.lua".source = ./configs/hyprland.lua;

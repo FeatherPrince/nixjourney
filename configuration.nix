@@ -18,11 +18,11 @@
 	# ./wsl.nix
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
-	./hyprland.nix
+	./profileHyprland/hyprland.nix
 	./locale.nix
 	./pkgs.nix
 	./fonts.nix
-	# ./moduleNoctalia.nix
+	#./moduleNoctalia.nix
 	];
 
 	# Bootloader.
@@ -30,7 +30,6 @@
 	boot.loader.efi.canTouchEfiVariables = true;
 
 	# services.displayManager.ly.enable = true;
-	services.displayManager.noctalia-greeter.enable = true;
 #	services.displayManager.lemurs.enable = true;
 #	services.displayManager.sddm.enable = true;
 	# services.xserver.enable = true;
@@ -42,7 +41,7 @@
 	export PS1='[\u@\H]\n[\w][\$] '
 	'';
 	programs.steam.enable =  true;
-	
+
 	programs.zsh = {
 		enable = true;
 		autosuggestions.enable = true;
@@ -72,7 +71,7 @@
 	# Enable CUPS to print documents.
 	services.printing.enable = true;
 
-	# services.xserver.excludePackages = with pkgs; [xterm]; 
+	# services.xserver.excludePackages = with pkgs; [xterm];
 		nixpkgs.config.allowUnfree = true;
 
 
