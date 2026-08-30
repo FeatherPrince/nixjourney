@@ -37,10 +37,11 @@
  	# services.desktopManager.plasma6.enable = true;
  	# services.desktopManager.plasma6.enableQt5Integration = true;
 
+  programs.steam.enable =  true;
+
 	programs.bash.promptInit = ''
 	export PS1='[\u@\H]\n[\w][\$] '
 	'';
-	programs.steam.enable =  true;
 
 	programs.zsh = {
 		enable = true;

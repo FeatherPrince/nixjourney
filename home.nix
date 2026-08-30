@@ -11,16 +11,16 @@
   programs.bash = {
 		enable = true;
   	# bashrcExtra commands executed in non all shells including non interactive ones
-		bashrcExtra = ''
-	'';
+	# 	bashrcExtra = ''
+	# '';
 		shellAliases = {
 			ls = "eza --icons=always -X -F=always";
       cat = "bat";
 			# nrs = "sudo nixos-rebuild switch";
 		};
 	  # initExtra commands executed in interactive shells
-		initExtra = ''
-	'';
+	# 	initExtra = ''
+	# '';
 	};
 	services.clipse.enable = true;
 	services.hyprpolkitagent.enable = true;
