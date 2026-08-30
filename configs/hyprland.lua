@@ -39,7 +39,7 @@ hl.monitor({
 local terminal     = "wezterm"
 local fileManager  = "dolphin"
 local menu         = "hyprlauncher"
-local desktopShell = "noctalia"
+local desktopShell = "wayle shell"
 
 
 -------------------
@@ -53,6 +53,7 @@ local desktopShell = "noctalia"
 --
 hl.on("hyprland.start", function ()
   hl.exec_cmd(desktopShell)
+  hl.exec_cmd("ollama serve")
 --   hl.exec_cmd("nm-applet")
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
 end)
@@ -270,7 +271,7 @@ local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
--- hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 -- hl.bind(mainMod .. " + J", hl.dksp.layout("togglesplit"))    -- dwindle only
@@ -366,40 +367,40 @@ hl.window_rule({
     float = true,
 })
 
-------------------
----- NOCTALIA ----
-------------------
+-- ------------------
+-- ---- NOCTALIA ----
+-- ------------------
 
-local mainMod = "SUPER"
-local ipc = "noctalia msg "
+-- local mainMod = "SUPER"
+-- local ipc = "noctalia msg "
 
--- Core binds
-hl.bind(mainMod .. "+Space", hl.dsp.exec_cmd(ipc .. "panel-toggle launcher"))
-hl.bind(mainMod .. "+S", hl.dsp.exec_cmd(ipc .. "panel-toggle control-center"))
-hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd(ipc .. "settings-toggle"))
-hl.bind("ALT + Tab", hl.dsp.exec_cmd(ipc .. "window-switcher"))
+-- -- Core binds
+-- hl.bind(mainMod .. "+Space", hl.dsp.exec_cmd(ipc .. "panel-toggle launcher"))
+-- hl.bind(mainMod .. "+S", hl.dsp.exec_cmd(ipc .. "panel-toggle control-center"))
+-- hl.bind(mainMod .. "+comma", hl.dsp.exec_cmd(ipc .. "settings-toggle"))
+-- hl.bind("ALT + Tab", hl.dsp.exec_cmd(ipc .. "window-switcher"))
 
--- Media keys
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. "volume-up"))
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. "volume-down"))
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. "volume-mute"))
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd(ipc .. "brightness-up"))
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(ipc .. "brightness-down"))
+-- -- Media keys
+-- hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. "volume-up"))
+-- hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. "volume-down"))
+-- hl.bind("XF86AudioMute", hl.dsp.exec_cmd(ipc .. "volume-mute"))
+-- hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd(ipc .. "brightness-up"))
+-- hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(ipc .. "brightness-down"))
 
--- Noctalia Settings
-hl.window_rule({
-    match = { class = "dev.noctalia.Noctalia" },
-    float = true,
-    size = { 1080, 920 },
-})
+-- -- Noctalia Settings
+-- hl.window_rule({
+--     match = { class = "dev.noctalia.Noctalia" },
+--     float = true,
+--     size = { 1080, 920 },
+-- })
 
-hl.layer_rule({
-  name = "noctalia",
-  match = {
-    namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher)$",
-  },
-  no_anim = true,
-  ignore_alpha = 0.5,
-  blur = true,
-  blur_popups = true,
-})
+-- hl.layer_rule({
+--   name = "noctalia",
+--   match = {
+--     namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd|window-switcher)$",
+--   },
+--   no_anim = true,
+--   ignore_alpha = 0.5,
+--   blur = true,
+--   blur_popups = true,
+-- })
