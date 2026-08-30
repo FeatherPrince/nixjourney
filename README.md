@@ -8,7 +8,8 @@ the end goal is to have a 'one click install' for any given machine
 
 # todo
 
-<!-- - [ ] file with configuration variables that can be used in other files
+<!--
+- [ ] file with configuration variables that can be used in other files
 - [ ] set up home manager
 - [ ] set up flakes
 - [ ] set up flakes.lock
@@ -19,9 +20,16 @@ the end goal is to have a 'one click install' for any given machine
 - [ ] install script
 - [ ] upgrade script
 - [ ] update script
-- [ ] clear nix store cache script -->
+- [ ] clear nix store cache script 
 
-- [ ] script rework, test script (dry-activate), upgrade after boot (updates flake lock), update after boot 
+- [ ] script rework, test script (dry-activate), upgrade after boot (updates flake lock), update after boot
+
+configuration structure
+core files:
+flake.nix, configuration.nix, homemanager.nix
+all of the above files are passed to every configuration
+each configuration then has its own moduleConfig1 and homeConfig1 files that may branch out into smaller more specific files
+-->
 
 # Notes
 When dual booting this can be used to make windows use UTC time insead of local time to avoid having to sync time when booting into windows from linux, run this in cmd as an admin
