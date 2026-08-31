@@ -11,7 +11,10 @@
 	services.displayManager.dms-greeter.compositor.name = "hyprland";
 	programs.uwsm.enable = true;
 	programs.hyprland.xwayland.enable = true;
-
+	programs.hyprland.portalPackage = pkgs.xdg-desktop-portal-hyprland;
+	xdg.portal.wlr.enable = true;
+	xdg.portal.enable = true;
+	# xdgOpenUsePortal = true;
 
 # 	services.hyprlauncher.enable = true;
 	environment.systemPackages = with pkgs; [
