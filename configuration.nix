@@ -18,7 +18,6 @@
 	# ./wsl.nix
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
-	./profileHyprland/moduleHyprland.nix
 	./locale.nix
 	./pkgs.nix
 	./fonts.nix
