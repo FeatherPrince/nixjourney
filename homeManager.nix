@@ -1,7 +1,7 @@
 { pkgs, userName , ... }:
 
 {
-  # home-manager.extraSpecialArgs = { inherit userName; };  
+  # home-manager.extraSpecialArgs = { inherit userName; };
   home-manager.users.${userName} = {
   home.stateVersion = "25.11";
   };
