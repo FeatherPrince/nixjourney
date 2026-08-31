@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
     hardware.graphics = {
@@ -7,4 +7,8 @@
     };
 
     nixpkgs.config.rocmSupport = true;
+
+    environment.systemPackages = [
+      pkgs.rocmPackages.rocm-smi # system management interface
+    ];
 }
