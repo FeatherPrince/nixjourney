@@ -29,6 +29,12 @@ core files:
 flake.nix, configuration.nix, homemanager.nix
 all of the above files are passed to every configuration
 each configuration then has its own moduleConfig1 and homeConfig1 files that may branch out into smaller more specific files
+
+one idea I have for user defined variables is to make an install script that asks what the variable should be and it gets passed to the nix system, username or localisation would be a good example, user no longer has to go into the config all he has to do is call an install script and choose the right variables, kind of like archinstall
+list of things the user has to define:
+username, hostname, localisation, keymap
+list of things that are automatically defined based on available information:
+cpu architecture, gpu vendor
 -->
 
 # Notes

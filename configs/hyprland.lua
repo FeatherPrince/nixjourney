@@ -274,6 +274,10 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
+
+-- hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(hyprshot))
+
 -- hl.bind(mainMod .. " + J", hl.dksp.layout("togglesplit"))    -- dwindle only
 
 -- Move focus with mainMod + arrow keys
@@ -366,6 +370,7 @@ hl.window_rule({
     move  = "20 monitor_h-120",
     float = true,
 })
+
 
 -- ------------------
 -- ---- NOCTALIA ----
