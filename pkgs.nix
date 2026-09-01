@@ -3,15 +3,19 @@
 {
 	programs.firefox.enable = true;
 	environment.systemPackages = with pkgs; [
-	# this sounds like a reasonable way of splitting packages: tty, tui, gui, plugin, daemon/service
+	# this sounds like a reasonable way of splitting packages: tty, tui, gui, plugin, daemon/service and commands (coreutils, etc)
+
 	#######
 	# tty #
 	#######
-	yubikey-manager
-	networkmanager
+	# kbd
 	coreutils
+	busybox
 	pciutils
 	libnotify
+	# mapscii
+	yubikey-manager
+	networkmanager
 	kdePackages.kde-gtk-config
 	SDL2
 	# ollama
@@ -35,6 +39,7 @@
 	#######
 	btop
 	superfile
+	micro
 	#######
 	# gui #
 	#######
@@ -46,6 +51,7 @@
 	bitwarden-desktop
 	discord
 	gimp
+	krita
 	blender
 	libreoffice-stable
 	zed-editor-fhs
