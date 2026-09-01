@@ -39,7 +39,7 @@
   programs.steam.enable =  true;
 
 	programs.bash.promptInit = ''
-	export PS1='[\u@\H]\n[\w][\$] '
+	export PS1='\n[\u@\H]\n[\w][\$] '
 	'';
 
 	programs.zsh = {
