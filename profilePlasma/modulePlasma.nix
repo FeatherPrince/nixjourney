@@ -9,5 +9,6 @@
 	services.desktopManager.plasma6.enableQt5Integration = true;
 	programs.partition-manager.enable = true;
 	programs.k3b.enable = true;
+	programs.kde-pim.enable = true;
 	# xdg.portal.extraPortals = [ xdg-desktop-portal-kde ];
 }
