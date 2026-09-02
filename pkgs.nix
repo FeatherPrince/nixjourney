@@ -18,6 +18,7 @@
 	networkmanager
 	kdePackages.kde-gtk-config
 	SDL2
+	ffmpeg
 	# ollama
 	# ollama-vulkan
 	ollama-rocm
@@ -32,13 +33,13 @@
 	yt-dlp
 	git
 	ripgrep
-	fd	#	search for strings inside of files
-	nsh	#	search for file names
+	fd				#	search for strings inside of files
+	nsh				#	search for file names
 	#######
 	# tui #
 	#######
 	btop
-	superfile
+	superfile		# TUI file manager
 	micro
 	#######
 	# gui #
