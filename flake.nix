@@ -20,7 +20,7 @@
 	nixosConfigurations = {
 		nixos = nixpkgs.lib.nixosSystem {
 		};
-		hypr = nixpkgs.lib.nixosSystem {
+		hyprland = nixpkgs.lib.nixosSystem {
 			system = "x86_64-linux";
 			specialArgs = {
 				stateVersion = stateVersion;
@@ -38,8 +38,7 @@
 				backupFileExtension = "backup";
 				extraSpecialArgs = { inherit userName; };
 				users.${userName} = import ./home.nix;
-				};
-				}
+				};}
  			];
 			};
 			plasma = nixpkgs.lib.nixosSystem {
@@ -60,9 +59,29 @@
 					backupFileExtension = "backup";
 					extraSpecialArgs = { inherit userName; };
 					users.${userName} = import ./home.nix;
-					};
-					}
- 			];
+					};}
+				];
+			};
+			gnome = nixpkgs.lib.nixosSystem {
+				system = "x86_64-linux";
+				specialArgs = {
+					stateVersion = stateVersion;
+					userName = userName;
+					hostName = hostName;
+				};
+				modules = [
+					./profileGnome/moduleGnome.nix
+					./configuration.nix
+					./hardwareVendor/moduleAMD.nix
+					home-manager.nixosModules.home-manager {
+					home-manager = {
+					useGlobalPkgs = true;
+					useUserPackages = true;
+					backupFileExtension = "backup";
+					extraSpecialArgs = { inherit userName; };
+					users.${userName} = import ./home.nix;
+					};}
+				];
 			};
 		};
 	};
