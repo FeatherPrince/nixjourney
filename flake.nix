@@ -40,47 +40,53 @@
 				users.${userName} = import ./home.nix;
 				};}
  			];
+		};
+		plasma = nixpkgs.lib.nixosSystem {
+			system = "x86_64-linux";
+			specialArgs = {
+				stateVersion = stateVersion;
+				userName = userName;
+				hostName = hostName;
 			};
-			plasma = nixpkgs.lib.nixosSystem {
-				system = "x86_64-linux";
-				specialArgs = {
-					stateVersion = stateVersion;
-					userName = userName;
-					hostName = hostName;
-				};
-				modules = [
-					./profilePlasma/modulePlasma.nix
-					./configuration.nix
-					./hardwareVendor/moduleAMD.nix
-					home-manager.nixosModules.home-manager {
-					home-manager = {
-					useGlobalPkgs = true;
-					useUserPackages = true;
-					backupFileExtension = "backup";
-					extraSpecialArgs = { inherit userName; };
-					users.${userName} = import ./home.nix;
-					};}
-				];
+			modules = [
+				./profilePlasma/modulePlasma.nix
+				./configuration.nix
+				./hardwareVendor/moduleAMD.nix
+				home-manager.nixosModules.home-manager {
+				home-manager = {
+				useGlobalPkgs = true;
+				useUserPackages = true;
+				backupFileExtension = "backup";
+				extraSpecialArgs = { inherit userName; };
+				users.${userName} = import ./home.nix;
+				};}
+			];
+		};
+		gnome = nixpkgs.lib.nixosSystem {
+			system = "x86_64-linux";
+			specialArgs = {
+				stateVersion = stateVersion;
+				userName = userName;
+				hostName = hostName;
 			};
-			gnome = nixpkgs.lib.nixosSystem {
-				system = "x86_64-linux";
-				specialArgs = {
-					stateVersion = stateVersion;
-					userName = userName;
-					hostName = hostName;
-				};
-				modules = [
-					./profileGnome/moduleGnome.nix
-					./configuration.nix
-					./hardwareVendor/moduleAMD.nix
-					home-manager.nixosModules.home-manager {
-					home-manager = {
-					useGlobalPkgs = true;
-					useUserPackages = true;
-					backupFileExtension = "backup";
-					extraSpecialArgs = { inherit userName; };
-					users.${userName} = import ./home.nix;
-					};}
+			modules = [
+				./profileGnome/moduleGnome.nix
+				./configuration.nix
+				./hardwareVendor/moduleAMD.nix
+				home-manager.nixosModules.home-manager {
+				home-manager = {
+				useGlobalPkgs = true;
+				useUserPackages = true;
+				backupFileExtension = "backup";
+				extraSpecialArgs = { inherit userName; };
+				users.${userName} = {
+					imports = [
+						./home.nix
+						./profileGnome/homeGnome.nix
+					];
+					};
+					};
+					}
 				];
 			};
 		};
