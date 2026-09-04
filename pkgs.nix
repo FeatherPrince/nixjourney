@@ -9,6 +9,7 @@
 	# tty #
 	#######
 	# kbd
+	git
 	coreutils
 	busybox
 	pciutils
@@ -19,11 +20,6 @@
 	kdePackages.kde-gtk-config
 	SDL2
 	ffmpeg
-	# ollama
-	# ollama-vulkan
-	ollama-rocm
-	# ollama-cuda
-	# ollama-cpu
 	appimage-run
 	bat
 	eza
