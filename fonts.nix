@@ -25,16 +25,21 @@
 		ipafont
 		ipaexfont
 		weather-icons
-#		noto-fonts
-#		noto-fonts-lgc-plus
-#		noto-fonts-cjk-sans
-#		noto-fonts-cjk-serif
-#		noto-fonts-color-emoji
-#		noto-fonts-emoji-blob-bin
-#		noto-fonts-monochrome-emoji
-#		nerd-fonts.symbols-only
-#		font-awesome
-#		font-awesome_4
-#		font-awesome_5
+		# noto-fonts
+		# noto-fonts-lgc-plus
+		# noto-fonts-cjk-sans
+		# noto-fonts-cjk-serif
+		# noto-fonts-color-emoji
+		# noto-fonts-emoji-blob-bin
+		# noto-fonts-monochrome-emoji
+		# nerd-fonts.symbols-only
+		# font-awesome
+		# font-awesome_4
+		# font-awesome_5
+		adwaita-fonts
+		adwaita-icon-theme
+		adwaita-icon-theme-legacy
+		morewaita-icon-theme
+		nerd-fonts.adwaita-mono
 	];
 }
