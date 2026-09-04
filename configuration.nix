@@ -20,9 +20,35 @@
 	/etc/nixos/hardware-configuration.nix
 	./locale.nix
 	./pkgs.nix
+	./programs.nix
 	./fonts.nix
 	#./moduleNoctalia.nix
 	];
+
+
+	services.ollama = {
+		enable = true;
+		# loadModels = [
+		# 	"qwen3.8:27b"			#
+		# 	"deepseek-r1:14b"		#
+		# 	"deepseek-coder:1.3b"	# 776 MB
+		# 	"deepseek-coder:6.7b"	#
+		# 	"deepseek-coder-v2:16b"	#
+		# ];
+		# OPTIONAL: Enable GPU acceleration (Uncomment the one you need)
+		package = pkgs.ollama-vulkan;
+		# package = pkgs.ollama;
+		# package = pkgs.ollama-cpu;
+		# package = pkgs.ollama-rocm;
+		# package = pkgs.ollama-cuda;
+
+		# OPTIONAL: Set environment variables (e.g., to allow external network access)
+		# environmentVariables = {
+		# 	# OLLAMA_HOST = "0.0.0.0"; # Uncomment to allow access from other devices on your network
+		# };
+	};
+
+
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
@@ -36,57 +62,44 @@
  	# services.desktopManager.plasma6.enable = true;
  	# services.desktopManager.plasma6.enableQt5Integration = true;
 
-  programs.steam.enable =  true;
-
 	programs.bash.promptInit = ''
 	export PS1='\n[\u@\H]\n[\w][\$] '
 	'';
 
-	programs.zsh = {
-		enable = true;
-		autosuggestions.enable = true;
-		syntaxHighlighting.enable = true;
-		enableCompletion = true;
-		shellAliases = {
-			cat = "bat";
-			ls = "eza --icons=always -X -F=always";
-		};
-	};
+	# programs.zsh = {
+	# 	enable = true;
+	# 	autosuggestions.enable = true;
+	# 	syntaxHighlighting.enable = true;
+	# 	enableCompletion = true;
+	# 	shellAliases = {
+	# 		cat = "bat";
+	# 		ls = "eza --icons=always -X -F=always";
+	# 	};
+	# };
 
-	  programs.noctalia = {
-    enable = true;
 
-    # Enables NetworkManager, Bluetooth, UPower, and a power profile service.
-    recommendedServices.enable = true;
-  };
 
 	users.users.${userName} = {
 		# shell = pkgs.zsh;
 		extraGroups = [ "networkmanager" "wheel" ];
 	};
 
-
-	# Configure console keymap
-
 	# Enable CUPS to print documents.
 	services.printing.enable = true;
 
 	# services.xserver.excludePackages = with pkgs; [xterm];
-		nixpkgs.config.allowUnfree = true;
-
+	nixpkgs.config.allowUnfree = true;
 
 	# enable experimental features that are disabled by default
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-
-
+	boot.kernelPackages = pkgs.linuxPackages_latest;
 
 	# Enable OpenTabletDriver
 	hardware.opentabletdriver.enable = true;
 	# Required by OpenTabletDriver
 	hardware.uinput.enable = true;
 	boot.kernelModules = [ "uinput" ];
-
 
 	# This value determines the NixOS release from which the default
 	# settings for stateful data, like file locations and database versions
