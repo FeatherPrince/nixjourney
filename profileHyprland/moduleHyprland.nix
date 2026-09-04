@@ -39,6 +39,7 @@
 	home-manager.users.${userName} = {
 		services.hyprpolkitagent.enable = true;
 		programs.hyprshot.enable = true;
+		# services.clipse.enable = true;
 		# services.mako.enable = true; # notification daemon
 
 
