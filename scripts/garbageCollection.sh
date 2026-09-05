@@ -1,4 +1,4 @@
-# !/bin/bash
+!/bin/bash
 # sudo nixos-rebuild switch --impure --flake $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &>/dev/null && pwd )/..#plasma
 
 
@@ -11,6 +11,10 @@
 # Gets the absolute path of the currently running binary
 clear
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &>/dev/null && pwd )
+# echo $SCRIPT_DIR
+CACHE=$(cat $SCRIPT_DIR/../cache)
+# echo $CACHE
+
 # SHORTENED_COMMAND() {
 # 	sudo nixos-rebuild switch --impure --flake "${SCRIPT_DIR}"/../.#
 # }
@@ -30,7 +34,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &>/dev/null && pwd )
 # sudo $FLAKE_DIR plasma
 
 # 1. Define the prompt (PS3 is the special variable for select prompts)
-PS3="Please enter your choice (1-7): "
+PS3="Please enter your choice (1-8): "
 
 # 2. Define the options as an array
 options=(
@@ -57,44 +61,46 @@ select opt in "${options[@]}"; do
 		;;
 		"garbage collect all previous configurations")
 			sudo nix-collect-garbage -d
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
 			break
 		;;
-		"rebuild and upgrade the current configuration without upgrading or restarting")
-			# sudo nix-collect-garbage --delete-older-than 30d
-			# nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#headless
+		"rebuild, upgrade and reboot the current configuration")
+			sudo nix-collect-garbage --delete-older-than 30d
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$CACHE
 			echo
-			echo "this does not work yet"
-			echo "I still need to add cache so it can what the current configuration is"
+			sudo reboot now
+			break
+		;;
+		"rebuild the current configuration without upgrading or restarting")
+			# reloads the current configuration, for debugging purposes
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
+			echo
 			break
 			# reboot now
 		;;
-		"rebuild the current configuration")
-			# reloads the current configuration, for debugging purposes
-			# nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#headless
-			echo
-			echo "this does not work yet"
-			echo "I still need to add cache so it can what the current configuration is"
-			break
-		;;
 		"headless - reboot")
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#headless
+			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
+			echo headless > ${SCRIPT_DIR}/../cache
 			break
-			reboot now
+			# reboot now
 		;;
 		"gnome - reboot")
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#gnome
+			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
+			echo gnome > ${SCRIPT_DIR}/../cache
 			break
-			reboot now
+			# reboot now
 		;;
 		"plasma - reboot")
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#plasma
+			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
+			echo plasma > ${SCRIPT_DIR}/../cache
 			break
-			reboot now
+			# reboot now
 		;;
 		"hyprland - reboot")
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#hyprland
+			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
+			echo hyprland > ${SCRIPT_DIR}/../cache
 			break
-			reboot now
+			# reboot now
 			;;
 		*)
 			echo "Invalid option. Try another one."
