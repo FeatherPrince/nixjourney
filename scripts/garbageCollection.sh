@@ -36,12 +36,12 @@ PS3="Please enter your choice (1-7): "
 options=(
 	"cancel"
 	"garbage collect all previous configurations"
-	"upgrade"
-	"switch"
-	"headless"
-	"gnome"
-	"plasma"
-	"hyprland"
+	"rebuild and upgrade the current configuration"
+	"rebuild the current configuration without upgrading or restarting"
+	"headless - reboot"
+	"gnome - reboot"
+	"plasma - reboot"
+	"hyprland - reboot"
 )
 # echo choose configuration
 # 3. Create the select loop
@@ -59,7 +59,7 @@ select opt in "${options[@]}"; do
 			sudo nix-collect-garbage -d
 			break
 		;;
-		"upgrade")
+		"rebuild and upgrade the current configuration without upgrading or restarting")
 			# sudo nix-collect-garbage --delete-older-than 30d
 			# nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#headless
 			echo
@@ -68,7 +68,7 @@ select opt in "${options[@]}"; do
 			break
 			# reboot now
 		;;
-		"switch")
+		"rebuild the current configuration")
 			# reloads the current configuration, for debugging purposes
 			# nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#headless
 			echo
@@ -76,22 +76,22 @@ select opt in "${options[@]}"; do
 			echo "I still need to add cache so it can what the current configuration is"
 			break
 		;;
-		"headless")
+		"headless - reboot")
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#headless
 			break
 			reboot now
 		;;
-		"gnome")
+		"gnome - reboot")
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#gnome
 			break
 			reboot now
 		;;
-		"plasma")
+		"plasma - reboot")
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#plasma
 			break
 			reboot now
 		;;
-		"hyprland")
+		"hyprland - reboot")
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#hyprland
 			break
 			reboot now
