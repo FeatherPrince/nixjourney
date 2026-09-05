@@ -18,35 +18,14 @@
 	# ./wsl.nix
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
+	./modules/moduleOllama.nix
 	./locale.nix
 	./pkgs.nix
 	./programs.nix
 	./fonts.nix
-	#./moduleNoctalia.nix
 	];
 
 
-	services.ollama = {
-		enable = true;
-		# loadModels = [
-		# 	"qwen3.8:27b"			#
-		# 	"deepseek-r1:14b"		#
-		# 	"deepseek-coder:1.3b"	# 776 MB
-		# 	"deepseek-coder:6.7b"	#
-		# 	"deepseek-coder-v2:16b"	#
-		# ];
-		# OPTIONAL: Enable GPU acceleration (Uncomment the one you need)
-		package = pkgs.ollama-vulkan;
-		# package = pkgs.ollama;
-		# package = pkgs.ollama-cpu;
-		# package = pkgs.ollama-rocm;
-		# package = pkgs.ollama-cuda;
-
-		# OPTIONAL: Set environment variables (e.g., to allow external network access)
-		# environmentVariables = {
-		# 	# OLLAMA_HOST = "0.0.0.0"; # Uncomment to allow access from other devices on your network
-		# };
-	};
 
 
 
