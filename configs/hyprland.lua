@@ -53,7 +53,6 @@ local desktopShell = "wayle shell"
 --
 hl.on("hyprland.start", function ()
   hl.exec_cmd(desktopShell)
-  hl.exec_cmd("ollama serve")
 --   hl.exec_cmd("nm-applet")
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
 end)
