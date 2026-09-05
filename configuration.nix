@@ -19,27 +19,16 @@
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
 	./modules/moduleOllama.nix
+	./modules/moduleOpenTabletDriver.nix
 	./locale.nix
 	./pkgs.nix
 	./programs.nix
 	./fonts.nix
 	];
 
-
-
-
-
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
-
-	# services.displayManager.ly.enable = true;
-#	services.displayManager.lemurs.enable = true;
-#	services.displayManager.sddm.enable = true;
-	# services.xserver.enable = true;
-
- 	# services.desktopManager.plasma6.enable = true;
- 	# services.desktopManager.plasma6.enableQt5Integration = true;
 
 	programs.bash.promptInit = ''
 	export PS1='\n[\u@\H]\n[\w][\$] '
@@ -56,8 +45,6 @@
 	# 	};
 	# };
 
-
-
 	users.users.${userName} = {
 		# shell = pkgs.zsh;
 		extraGroups = [ "networkmanager" "wheel" ];
@@ -72,13 +59,8 @@
 	# enable experimental features that are disabled by default
 	nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+	# use latest kernel version
 	boot.kernelPackages = pkgs.linuxPackages_latest;
-
-	# Enable OpenTabletDriver
-	hardware.opentabletdriver.enable = true;
-	# Required by OpenTabletDriver
-	hardware.uinput.enable = true;
-	boot.kernelModules = [ "uinput" ];
 
 	# This value determines the NixOS release from which the default
 	# settings for stateful data, like file locations and database versions
