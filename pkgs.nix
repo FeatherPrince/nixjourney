@@ -9,6 +9,8 @@
 	# tty #
 	#######
 	# kbd
+	vulkan-tools
+	clinfo
 	git
 	coreutils
 	busybox
