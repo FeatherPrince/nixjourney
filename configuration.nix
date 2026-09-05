@@ -20,8 +20,8 @@
 	/etc/nixos/hardware-configuration.nix
 	./modules/moduleOllama.nix
 	./modules/moduleOpenTabletDriver.nix
-	./modules/pkgs.nix
-	./modules/programs.nix
+	./modules/modulePkgs.nix
+	./modules/modulePrograms.nix
 	./locale.nix
 	./fonts.nix
 	];
