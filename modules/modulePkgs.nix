@@ -19,7 +19,6 @@
 	# mapscii
 	yubikey-manager
 	networkmanager
-	kdePackages.kde-gtk-config
 	SDL2
 	ffmpeg
 	appimage-run
@@ -44,6 +43,7 @@
 	#######
 	beyond-all-reason
 	mpv
+	vlc
 	firefox
 	wezterm
 	vscodium
@@ -55,6 +55,7 @@
 	libreoffice-stable
 	zed-editor-fhs
 	# feh # requires x11
+	imv
 	pcmanfm
 	pcmanfm-qt
 	###########
