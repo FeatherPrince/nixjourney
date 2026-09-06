@@ -277,7 +277,7 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 
 -- hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(hyprshot))
 
--- hl.bind(mainMod .. " + J", hl.dksp.layout("togglesplit"))    -- dwindle only
+-- hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
 -- Move focus with mainMod + arrow keys
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
