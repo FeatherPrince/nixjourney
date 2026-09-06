@@ -41,6 +41,8 @@
 	#######
 	# gui #
 	#######
+	xev
+	wev
 	beyond-all-reason
 	mpv
 	vlc
