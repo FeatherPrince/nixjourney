@@ -34,18 +34,19 @@ CACHE=$(cat $SCRIPT_DIR/../cache)
 # sudo $FLAKE_DIR plasma
 
 # 1. Define the prompt (PS3 is the special variable for select prompts)
-PS3="Please enter your choice (1-8): "
+PS3="Please enter your choice (1-9): "
 
 # 2. Define the options as an array
 options=(
 	"cancel"
 	"garbage collect all previous configurations"
-	"rebuild and upgrade the current configuration"
+	"rebuild, upgrade and reboot the current configuration"
 	"rebuild the current configuration without upgrading or restarting"
 	"headless - reboot"
 	"gnome - reboot"
 	"plasma - reboot"
 	"hyprland - reboot"
+	"noctalia - reboot"
 )
 # echo choose configuration
 # 3. Create the select loop
@@ -60,48 +61,52 @@ select opt in "${options[@]}"; do
 			break
 		;;
 		"garbage collect all previous configurations")
-			sudo nix-collect-garbage -d
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
+			sudo nix-collect-garbage -d &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			break
 		;;
 		"rebuild, upgrade and reboot the current configuration")
-			sudo nix-collect-garbage --delete-older-than 30d
-			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$CACHE
-			echo
+			sudo nix-collect-garbage --delete-older-than 30d &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			sudo reboot now
 			break
 		;;
 		"rebuild the current configuration without upgrading or restarting")
 			# reloads the current configuration, for debugging purposes
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
-			echo
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			break
-			# reboot now
+			# sudo reboot now
 		;;
 		"headless - reboot")
-			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
-			echo headless > ${SCRIPT_DIR}/../cache
-			break
-			# reboot now
+			sudo echo headless > ${SCRIPT_DIR}/../cache &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
 		;;
 		"gnome - reboot")
-			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
-			echo gnome > ${SCRIPT_DIR}/../cache
-			break
-			# reboot now
+			sudo echo gnome > ${SCRIPT_DIR}/../cache &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
 		;;
 		"plasma - reboot")
-			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
-			echo plasma > ${SCRIPT_DIR}/../cache
-			break
-			# reboot now
+			sudo echo plasma > ${SCRIPT_DIR}/../cache &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
 		;;
 		"hyprland - reboot")
-			# sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE
-			echo hyprland > ${SCRIPT_DIR}/../cache
-			break
-			# reboot now
-			;;
+			sudo echo hyprland > ${SCRIPT_DIR}/../cache &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
+		;;
+		"noctalia - reboot")
+			sudo echo noctalia > ${SCRIPT_DIR}/../cache &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
+		;;
 		*)
 			echo "Invalid option. Try another one."
 		;;
