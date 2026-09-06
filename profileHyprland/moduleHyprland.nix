@@ -18,14 +18,12 @@
 
 # 	services.hyprlauncher.enable = true;
 	environment.systemPackages = with pkgs; [
-		xdg-desktop-portal-hyprland
 		iio-hyprland
 
 		hyprpaper
 		hyprpicker
 		hypridle
 		hyprlock
-		xdg-desktop-portal-hyprland
 		hyprsunset
 		hyprpolkitagent
 		hyprsysteminfo
