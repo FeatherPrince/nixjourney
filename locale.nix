@@ -2,6 +2,7 @@
 
 
 {
+	time.hardwareClockInLocalTime = false;
 	time.timeZone = "Europe/Warsaw";
 
 	# Select internationalisation properties.
