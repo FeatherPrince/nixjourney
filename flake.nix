@@ -125,6 +125,58 @@
 					}
 				];
 			};
+			mangowm = nixpkgs.lib.nixosSystem {
+				system = "x86_64-linux";
+				specialArgs = {
+					stateVersion = stateVersion;
+					userName = userName;
+					hostName = hostName;
+				};
+				modules = [
+					./profileMangowm/moduleMangowm.nix
+					./configuration.nix
+					./hardwareVendor/moduleAMD.nix
+					home-manager.nixosModules.home-manager {
+						home-manager = {
+							useGlobalPkgs = true;
+							useUserPackages = true;
+							backupFileExtension = "backup";
+							extraSpecialArgs = { inherit userName; };
+							users.${userName} = {
+								imports = [
+									./home.nix
+								];
+							};
+						};
+					}
+				];
+			};
+			niri = nixpkgs.lib.nixosSystem {
+				system = "x86_64-linux";
+				specialArgs = {
+					stateVersion = stateVersion;
+					userName = userName;
+					hostName = hostName;
+				};
+				modules = [
+					./profileNiri/moduleNiri.nix
+					./configuration.nix
+					./hardwareVendor/moduleAMD.nix
+					home-manager.nixosModules.home-manager {
+						home-manager = {
+							useGlobalPkgs = true;
+							useUserPackages = true;
+							backupFileExtension = "backup";
+							extraSpecialArgs = { inherit userName; };
+							users.${userName} = {
+								imports = [
+									./home.nix
+								];
+							};
+						};
+					}
+				];
+			};
 		};
 	};
 }
