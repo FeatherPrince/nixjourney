@@ -45,8 +45,12 @@ options=(
 	"headless - reboot"
 	"gnome - reboot"
 	"plasma - reboot"
-	"hyprland - reboot"
+	"hyprland - reboot - deprecated"
 	"noctalia - reboot"
+	"mangowm - reboot"
+	"niri - reboot"
+	"weston - reboot"
+	"river - reboot"
 )
 # echo choose configuration
 # 3. Create the select loop
@@ -79,30 +83,63 @@ select opt in "${options[@]}"; do
 		;;
 		"headless - reboot")
 			sudo echo headless > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			# break
 			sudo reboot now
 		;;
 		"gnome - reboot")
 			sudo echo gnome > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			# break
 			sudo reboot now
 		;;
 		"plasma - reboot")
 			sudo echo plasma > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			# break
 			sudo reboot now
 		;;
-		"hyprland - reboot")
+		"hyprland - reboot - deprecated")
 			sudo echo hyprland > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			# break
 			sudo reboot now
 		;;
 		"noctalia - reboot")
 			sudo echo noctalia > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
+		;;
+		"mangowm - reboot")
+			sudo echo mangowm > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
+		;;
+		"niri - reboot")
+			sudo echo niri > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
+		;;
+		"weston - reboot")
+			sudo echo weston > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
+			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			# break
+			sudo reboot now
+		;;
+		"river - reboot")
+			sudo echo river > ${SCRIPT_DIR}/../cache &&
+			sleep 1 &&
 			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			# break
 			sudo reboot now
