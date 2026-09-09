@@ -82,65 +82,74 @@ select opt in "${options[@]}"; do
 			# sudo reboot now
 		;;
 		"headless - reboot")
-			sudo echo headless > ${SCRIPT_DIR}/../cache &&
+			VAR="headless"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"gnome - reboot")
-			sudo echo gnome > ${SCRIPT_DIR}/../cache &&
+			VAR="gnome"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"plasma - reboot")
-			sudo echo plasma > ${SCRIPT_DIR}/../cache &&
+			VAR="plasma"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"hyprland - reboot - deprecated")
-			sudo echo hyprland > ${SCRIPT_DIR}/../cache &&
+			VAR="hyprland"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"noctalia - reboot")
-			sudo echo noctalia > ${SCRIPT_DIR}/../cache &&
+			VAR="noctalia"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"mangowm - reboot")
-			sudo echo mangowm > ${SCRIPT_DIR}/../cache &&
+			VAR="mangowm"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"niri - reboot")
-			sudo echo niri > ${SCRIPT_DIR}/../cache &&
+			VAR="niri"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"weston - reboot")
-			sudo echo weston > ${SCRIPT_DIR}/../cache &&
+			VAR="weston"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
 		"river - reboot")
-			sudo echo river > ${SCRIPT_DIR}/../cache &&
+			VAR="river"
+			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
 			sleep 1 &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
 			sudo reboot now
 		;;
