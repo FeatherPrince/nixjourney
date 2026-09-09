@@ -1,14 +1,19 @@
 { pkgs, userName,  ... }:
 
 {
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1"; # not used because it's already in the config
+	# services.displayManager.ly.enable = true;
+	# environment.sessionVariables.NIXOS_OZONE_WL = "1"; # not used because it's already in the config
+	services.displayManager.dms-greeter.compositor.name = "hyprland";
+	services.displayManager.dms-greeter.enable = true;
+	programs.dms-shell.systemd.enable = true;
+	programs.dms-shell.enable = true;
+	programs.dms-shell.systemd.restartIfChanged = true;
 
 	programs.iio-hyprland.enable = true;
 	programs.hyprland.enable = true;
 	services.hypridle.enable = true;
 	programs.hyprland.withUWSM = true;
 	programs.hyprlock.enable = true;
-	services.displayManager.dms-greeter.compositor.name = "hyprland";
 	programs.uwsm.enable = true;
 	programs.hyprland.xwayland.enable = true;
 	programs.hyprland.portalPackage = pkgs.xdg-desktop-portal-hyprland;
@@ -16,7 +21,7 @@
 	xdg.portal.enable = true;
 	# xdgOpenUsePortal = true;
 
-# 	services.hyprlauncher.enable = true;
+	# services.hyprlauncher.enable = true;
 	environment.systemPackages = with pkgs; [
 		iio-hyprland
 
@@ -48,6 +53,6 @@
 		# You can even do it for the whole folder
 		#	xdg.configFile."waybar".source = ./configs/waybar-folder;
 		services.wayle.enable = true;
-	  services.wayle.autoInstallDependencies = true;
+		services.wayle.autoInstallDependencies = true;
 	};
 }
