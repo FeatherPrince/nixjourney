@@ -2,40 +2,7 @@
 # Readme
 an attempt at learning nix
 
-the end goal is to have a 'one click install' for any given machine
-
-
-
-# todo
-
-<!--
-- [ ] file with configuration variables that can be used in other files
-- [ ] set up home manager
-- [ ] set up flakes
-- [ ] set up flakes.lock
-- [ ] the final goal is to have a one line install that works on WSL and standalone
-- [ ] `nixos-rebuild switch --flake .#nixos` for WSL
-- [ ] `nixos-rebuild switch --flake .#nixos` for bare metal
-- [ ] `nixos-rebuild switch --flake .#nixos` for arm
-- [ ] install script
-- [ ] upgrade script
-- [ ] update script
-- [ ] clear nix store cache script 
-
-- [ ] script rework, test script (dry-activate), upgrade after boot (updates flake lock), update after boot
-
-configuration structure
-core files:
-flake.nix, configuration.nix, homemanager.nix
-all of the above files are passed to every configuration
-each configuration then has its own moduleConfig1 and homeConfig1 files that may branch out into smaller more specific files
-
-one idea I have for user defined variables is to make an install script that asks what the variable should be and it gets passed to the nix system, username or localisation would be a good example, user no longer has to go into the config all he has to do is call an install script and choose the right variables, kind of like archinstall
-list of things the user has to define:
-username, hostname, localisation, keymap
-list of things that are automatically defined based on available information:
-cpu architecture, gpu vendor
--->
+the end goal is to have a 'one click install' for any given machine that 'just works' regardless of the hardware vendor or cpu architecture
 
 # Notes
 When dual booting this can be used to make windows use UTC time insead of local time to avoid having to sync time when booting into windows from linux, run this in cmd as an admin
@@ -69,3 +36,49 @@ When dual booting this can be used to make windows use UTC time insead of local 
 [extranix](https://extranix.com/)
 
 [MyNixOS](https://mynixos.com/)
+
+# todo
+REWORK THE MENU SCRIPT: change the order of operation, first show several questions
+'cancel'
+'settings will apply to the current profile no other profile was selected'
+'currently selected profile is: $PROFILE'
+	'apply changes and rebuild selected profile'
+	'update flake.lock and rebuild selected profile'
+	'pull new version from github and rebuild selected profile'
+	'change profile'
+	'headless'
+	'wsl'
+	'plasma'
+	...
+'more options'
+	'enable office apps' (libre office, ... )
+	'enable creative apps' (gimp, krita, blender, ... )
+	'enable local ai' (ollama, opencode, ... )           
+<!--
+- [ ] file with configuration variables that can be used in other files
+- [ ] set up home manager
+- [ ] set up flakes
+- [ ] set up flakes.lock
+- [ ] the final goal is to have a one line install that works on WSL and standalone
+- [ ] `nixos-rebuild switch --flake .#nixos` for WSL
+- [ ] `nixos-rebuild switch --flake .#nixos` for bare metal
+- [ ] `nixos-rebuild switch --flake .#nixos` for arm
+- [ ] install script
+- [ ] upgrade script
+- [ ] update script
+- [ ] clear nix store cache script 
+
+- [ ] script rework, test script (dry-activate), upgrade after boot (updates flake lock), update after boot
+
+configuration structure
+core files:
+flake.nix, configuration.nix, homemanager.nix
+all of the above files are passed to every configuration
+each configuration then has its own moduleConfig1 and homeConfig1 files that may branch out into smaller more specific files
+
+one idea I have for user defined variables is to make an install script that asks what the variable should be and it gets passed to the nix system, username or localisation would be a good example, user no longer has to go into the config all he has to do is call an install script and choose the right variables, kind of like archinstall
+list of things the user has to define:
+username, hostname, localisation, keymap
+list of things that are automatically defined based on available information:
+cpu architecture, gpu vendor
+-->
