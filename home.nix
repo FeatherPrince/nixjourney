@@ -10,18 +10,16 @@
 
 	programs.bash = {
 		enable = true;
-	# bashrcExtra commands executed in non all shells including non interactive ones
-	# 	bashrcExtra = ''
-	# '';
+		# bashrcExtra commands executed in non all shells including non interactive ones
+		# bashrcExtra = "";
 		shellAliases = {
 			ls = "eza --icons=always -X -F=always";
 			cat = "bat";
 			yt-dlp = "yt-dlp -P $(xdg-user-dir VIDEOS)/yt-dlp";
 			# nrs = "sudo nixos-rebuild switch";
 		};
-	  # initExtra commands executed in interactive shells
-	# 	initExtra = ''
-	# '';
+		# initExtra commands executed in interactive shells
+		initExtra = "bind 'set completion-ignore-case on'";
 	};
 
 	programs.yt-dlp.enable = true;
