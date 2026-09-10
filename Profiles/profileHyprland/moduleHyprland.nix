@@ -52,7 +52,7 @@
 
 		# You can even do it for the whole folder
 		#	xdg.configFile."waybar".source = ./configs/waybar-folder;
-		services.wayle.enable = true;
-		services.wayle.autoInstallDependencies = true;
+		# services.wayle.enable = true;
+		# services.wayle.autoInstallDependencies = true;
 	};
 }

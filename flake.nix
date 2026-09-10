@@ -8,6 +8,13 @@
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
 	};
+	# NixOS-WSL for WSL2 configuration
+	# nixos-wsl = {
+	# 	url = "github:nix-community/NixOS-WSL?rev=807c50464eb9d84e8dfcc3a0b623b12a10f5f380";
+	# 	inputs.nixpkgs.follows = "nixpkgs";
+	# };
+	# Additional useful Nixpkgs inputs for WSL optimization
+	nixos-hardware.url = "github:nixos/nixos-hardware";
 
 	outputs = { self, nixpkgs, home-manager, ... }:
 # ```let in``` lets user define variables inside of the flake, while specialArgs allow other files to use it
@@ -20,6 +27,32 @@
 		nixosConfigurations = {
 			nixos = nixpkgs.lib.nixosSystem {
 			};
+			wsl = nixpkgs.lib.nixosSystem {
+				system = "x86_64-linux";
+				specialArgs = {
+					stateVersion = stateVersion;
+					userName = userName;
+					hostName = hostName;
+				};
+				modules = [
+					# ./profileHyprland/moduleHyprland.nix
+					./configuration.nix
+					./hardwareVendor/moduleAMD.nix
+					home-manager.nixosModules.home-manager {
+						home-manager = {
+						useGlobalPkgs = true;
+						useUserPackages = true;
+						backupFileExtension = "backup";
+						extraSpecialArgs = { inherit userName; };
+							users.${userName} = {
+								imports = [
+									./home.nix
+								];
+							};
+						};
+					}
+	 			];
+			};
 			hyprland = nixpkgs.lib.nixosSystem {
 				system = "x86_64-linux";
 				specialArgs = {
@@ -28,7 +61,7 @@
 					hostName = hostName;
 				};
 				modules = [
-					./profileHyprland/moduleHyprland.nix
+					./Profiles/profileHyprland/moduleHyprland.nix
 					./configuration.nix
 					./hardwareVendor/moduleAMD.nix
 					home-manager.nixosModules.home-manager {
@@ -54,7 +87,7 @@
 					hostName = hostName;
 				};
 				modules = [
-					./profilePlasma/modulePlasma.nix
+					./Profiles/rofilePlasma/modulePlasma.nix
 					./configuration.nix
 					./hardwareVendor/moduleAMD.nix
 					home-manager.nixosModules.home-manager {
@@ -80,7 +113,7 @@
 					hostName = hostName;
 				};
 				modules = [
-					./profileGnome/moduleGnome.nix
+					./Profiles/rofileGnome/moduleGnome.nix
 					./configuration.nix
 					./hardwareVendor/moduleAMD.nix
 					home-manager.nixosModules.home-manager {
@@ -92,7 +125,7 @@
 							users.${userName} = {
 								imports = [
 									./home.nix
-									./profileGnome/homeGnome.nix
+									./Profiles/rofileGnome/homeGnome.nix
 								];
 							};
 						};
@@ -107,7 +140,7 @@
 					hostName = hostName;
 				};
 				modules = [
-					./profileNoctalia/moduleNoctalia.nix
+					./Profiles/rofileNoctalia/moduleNoctalia.nix
 					./configuration.nix
 					./hardwareVendor/moduleAMD.nix
 					home-manager.nixosModules.home-manager {
@@ -133,7 +166,7 @@
 					hostName = hostName;
 				};
 				modules = [
-					./profileMangowm/moduleMangowm.nix
+					./Profiles/rofileMangowm/moduleMangowm.nix
 					./configuration.nix
 					./hardwareVendor/moduleAMD.nix
 					home-manager.nixosModules.home-manager {
@@ -159,7 +192,7 @@
 					hostName = hostName;
 				};
 				modules = [
-					./profileNiri/moduleNiri.nix
+					./Profiles/rofileNiri/moduleNiri.nix
 					./configuration.nix
 					./hardwareVendor/moduleAMD.nix
 					home-manager.nixosModules.home-manager {
