@@ -17,14 +17,12 @@
 		# OPTIONAL: Enable GPU acceleration (Uncomment the one you need)
 		# package = pkgs.ollama;
 		# package = pkgs.ollama-cpu;
-		package = pkgs.ollama-vulkan;
+		package = pkgs.ollama-vulkan; # seems to just work fine
 		# package = pkgs.ollama-rocm;
 		# package = pkgs.ollama-cuda;
 
 		user = "ollama";
 		group = config.services.ollama.user;
-		# todo figure out how to automatically detect a discrete gpu through "vulkaninfo summary"
-		# these are hacky fixes that may not work for other people
 		environmentVariables = {
 			# GGML_VULKAN_DEVICE = "0"; # this needs to be set to the discrete gpu | vulkaninfo summary
 			VulkanDeviceSelection = "auto"; # that's it I guess, that's the todo done . . .
@@ -32,6 +30,17 @@
 		};
 	};
 
+	systemd.services.ollama = {
+		after = [ "systemd-udevd.service" "multi-user.target" ];
+		wants = [ "systemd-udevd.service" ];
+
+		serviceConfig = {
+			# The AMDGPU driver takes a few seconds to load firmware at boot.
+			# This 10-second delay guarantees the GPU is fully initialized
+			# before Ollama tries to probe it.
+			ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
+		};
+	};
 	# user service inherits user variables which makes it much easier to manage, it also starts after login
 	# services.ollama.enable = false;
 	# systemd.user.services.ollama = {
