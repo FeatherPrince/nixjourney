@@ -40,7 +40,7 @@ When dual booting this can be used to make windows use UTC time insead of local 
 # todo
 REWORK THE MENU SCRIPT: change the order of operation, first show several questions
 'cancel'
-'settings will apply to the current profile no other profile was selected'
+'settings will apply to the current profile if no other profile was selected'
 'currently selected profile is: $PROFILE'
 	'apply changes and rebuild selected profile'
 	'update flake.lock and rebuild selected profile'
