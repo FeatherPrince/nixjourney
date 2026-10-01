@@ -3,7 +3,10 @@
 {
 	environment.etc."nextcloud-admin-pass".text = "PWD";
 	services.nextcloud = {
+		appstoreEnable = true;
 		enable = true;
+		# extraAppsEnable = true;
+		# package = "";
 		hostName = "localhost";
 		config.adminpassFile = "/etc/nextcloud-admin-pass";
 		config.dbtype = "sqlite";
