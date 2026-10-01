@@ -70,6 +70,7 @@ select opt in "${options[@]}"; do
 			break
 		;;
 		"rebuild, upgrade and reboot the current configuration")
+			cd ${SCRIPT_DIR}/.. && nix flake update
 			sudo nix-collect-garbage --delete-older-than 30d &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
 			sudo reboot now
