@@ -1,39 +1,27 @@
 # hardwareVendor/detect.nix
-#
-# Inspects /sys/class/drm/card*/device/vendor and returns a list of NixOS
-# modules matching the GPUs actually present on the build host.
-#
-# Requires `--impure` because we read from the live filesystem.
-{ lib }:
+{ lib, ... }:
+
 let
-  drmDir = "/sys/class/drm";
+  # Read all PCI devices and collect their vendor IDs.
+  # Returns a list of strings like ["0x8086" "0x10de" ...]
+  pciDevices = builtins.readDir /sys/bus/pci/devices;
 
-  readVendor = card:
-    let p = "${drmDir}/${card}/device/vendor";
-    in if builtins.pathExists p
-       then lib.removeSuffix "\n" (builtins.readFile p)
-       else null;
+  readVendor = device:
+    let
+      f = /sys/bus/pci/devices/${device}/vendor;
+    in
+    if builtins.pathExists f then lib.removeSuffix "\n" (builtins.readFile f) else null;
 
-  # Every "cardN" entry (ignores cardN-<connector> render nodes, etc.)
-  cards =
-    if builtins.pathExists drmDir
-    then builtins.filter (n: builtins.match "card[0-9]+" n != null)
-                         (builtins.attrNames (builtins.readDir drmDir))
-    else [];
+  vendorIds = lib.filter (v: v != null)
+    (lib.map readVendor (builtins.attrNames pciDevices));
 
-  # Unique set of vendor ids present
-  vendorIds = lib.unique (builtins.filter (x: x != null) (map readVendor cards));
+  hasVendor = id: lib.elem id vendorIds;
 
-  vendorModules = {
-    "0x1002" = ./moduleAMD.nix;
-    "0x10de" = ./moduleNVIDIA.nix;    # create when you have one
-    "0x8086" = ./moduleIntel.nix;     # create when you have one
-    "0x1af4" = ./moduleVirtio.nix;    # optional
-    "0x15ad" = ./moduleVMware.nix;    # optional
-    "0x1234" = ./moduleQemu.nix;      # optional (WSL)
-  };
-
-  found = builtins.filter (m: m != null)
-            (map (id: vendorModules.${id} or null) vendorIds);
-in
-  found
+in {
+  # Expose this so other modules can read it if needed
+  _module.args.gpuVendor =
+    if hasVendor "0x10de" then "nvidia"
+    else if hasVendor "0x1002" then "amd"
+    else if hasVendor "0x8086" then "intel"
+    else "unknown";
+}

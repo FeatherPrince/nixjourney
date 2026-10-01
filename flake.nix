@@ -15,6 +15,16 @@
     stateVersion = "25.11";
     hostName     = "nix-host";
 
+    lib = nixpkgs.lib;
+    gpu = import ./hardwareVendor/detectGpu.nix { inherit lib; };
+
+    gpuModule =
+      if gpu == "nvidia" then ./hardwareVendor/moduleNvidia.nix
+      else if gpu == "amd"    then ./hardwareVendor/moduleAMD.nix
+      else if gpu == "intel"  then ./hardwareVendor/moduleIntel.nix
+      else null;
+
+
     # Build a NixOS system. Everything that is shared lives here; callers
     # only supply the bits that actually differ between hosts.
     mkHost = { extraModules ? [], extraHomeModules ? [] }:
@@ -33,7 +43,7 @@
               useGlobalPkgs       = true;
               useUserPackages     = true;
               backupFileExtension = "backup";
-              extraSpecialArgs    = { inherit userName; };
+              extraSpecialArgs    = { inherit userName gpu; };
               users.${userName} = {
                 imports = [ ./home.nix ] ++ extraHomeModules;
               };
