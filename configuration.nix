@@ -19,20 +19,47 @@
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
 	/etc/nixos/hardware-configuration.nix
 	./modules/moduleOllama.nix
+	# ./modules/moduleLlama-cpp.nix
 	./modules/moduleOpenTabletDriver.nix
 	./modules/modulePkgs.nix
 	./modules/modulePrograms.nix
+	./modules/modulePython3.nix
+	# ./modules/moduleNextcloud.nix
+	./modules/moduleJellyfin.nix
 	./locale.nix
 	./fonts.nix
 	];
+
+
+	# boot.plymouth.enable = true;
+	services.kmscon = {
+    enable = true;
+    config = { };
+    # Optional: If you experience systemd-logind seat conflicts,
+    # uncomment the line below to disable seat support in kmscon.
+    # extraConfig = ''
+    #   seat=
+    # '';
+  };
+
+  environment.variables = {
+    COLORTERM = "truecolor";
+  };
+
+
+
+
+
+
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
 	boot.loader.efi.canTouchEfiVariables = true;
 
-	programs.bash.promptInit = ''
+	programs.bash.promptInit =
+	''
 	export PS1='\n[\u@\H]\n[\w][\$] '
-	'';
+	''; # I'm using "" instead of '''' because I think it looks nicer, fuck you
 
 	# programs.zsh = {
 	# 	enable = true;
