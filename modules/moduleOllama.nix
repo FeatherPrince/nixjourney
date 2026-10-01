@@ -6,13 +6,14 @@
 	users.users.ollama.extraGroups = [ "video" "render" ]; # this is important, this gives ollama relevant permissions to use the gpu
 	services.ollama = {
 		enable = true;
-		# loadModels = [
-		# 	"qwen3.8:27b"			#
-		# 	"deepseek-r1:14b"		#
-		# 	"deepseek-coder:1.3b"	# 776 MB
-		# 	"deepseek-coder:6.7b"	#
-		# 	"deepseek-coder-v2:16b"	#
-		# ];
+		loadModels = [
+			# "qwen3.8:27b"			#
+			# "deepseek-r1:14b"		#
+			# "deepseek-coder:1.3b"	# 776 MB
+			# "deepseek-coder:6.7b"	#
+			# "deepseek-coder-v2:16b"	#
+			# ollama run hf.co/prism-ml/Ternary-Bonsai-2-27B-gguf:Q2_0
+		];
 
 		# OPTIONAL: Enable GPU acceleration (Uncomment the one you need)
 		# package = pkgs.ollama;
