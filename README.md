@@ -81,4 +81,47 @@ list of things the user has to define:
 username, hostname, localisation, keymap
 list of things that are automatically defined based on available information:
 cpu architecture, gpu vendor
+
+syllabus
+https://openid.net/developers/how-connect-works/
+OIDC - OpenID Connect
+SSO  - Single Sign-On
+LDAP - Lightweight Directory Access Protocol
+SSL  - Secure Sockets Layer
+
+arr stack 
+  Framerr
+  
+  https://wiki.servarr.com/
+  lidarr
+  radarr
+  readarr
+  sonarr
+  whisparr
+  prowlarr
+  
+ 	bazarr
+	recyclarr
+	tdarr
+	yarr
+hayase extensions
+https://raw.githubusercontent.com/anh9000/anitorrent/main/hayase/index.json
+https://raw.githubusercontent.com/x7amod/Hayase-Nyaa/main/index.json
+https://raw.githubusercontent.com/tanzim2000/hayase-extension/refs/heads/main/index.json
+https://exten.pages.dev/index.json
+https://exten.pages.dev/dub/index.json
+https://exten.pages.dev/hentai/index.json
+https://exten.pages.dev/multi/index.json
+https://exten.pages.dev/nzb/index.json
+
+
+obliterate nginx after a rebuild if something is awry
+systemctl stop nginx && pkill -f nginx && systemctl start nginx
+
+
+this is how to tell which packages are going to get upgraded
+sudo nixos-rebuild build --impure --flake .#<profile file path/profile>
+sudo nixos-rebuild build
+nix store diff-closures /var/run/current-system ./result
+nvd diff /run/current-system ./result
 -->

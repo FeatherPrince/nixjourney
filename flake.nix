@@ -3,27 +3,21 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, sops-nix, ... }:
   let
     userName     = "feather";
     stateVersion = "25.11";
     hostName     = "nix-host";
-
-    lib = nixpkgs.lib;
-    gpu = import ./hardwareVendor/detectGpu.nix { inherit lib; };
-
-    gpuModule =
-      if gpu == "nvidia" then ./hardwareVendor/moduleNvidia.nix
-      else if gpu == "amd"    then ./hardwareVendor/moduleAMD.nix
-      else if gpu == "intel"  then ./hardwareVendor/moduleIntel.nix
-      else null;
-
 
     # Build a NixOS system. Everything that is shared lives here; callers
     # only supply the bits that actually differ between hosts.
@@ -34,6 +28,7 @@
         modules = [
           ./configuration.nix
           ./hardwareVendor/moduleAMD.nix
+          sops-nix.nixosModules.sops
         ]
         ++ extraModules
         ++ [
@@ -43,7 +38,7 @@
               useGlobalPkgs       = true;
               useUserPackages     = true;
               backupFileExtension = "backup";
-              extraSpecialArgs    = { inherit userName gpu; };
+              extraSpecialArgs    = { inherit userName; };
               users.${userName} = {
                 imports = [ ./home.nix ] ++ extraHomeModules;
               };

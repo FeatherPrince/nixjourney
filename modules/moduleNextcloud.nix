@@ -13,7 +13,7 @@
 		settings = {
 			# Some sane defaults required to satisfy Nextcloud configuration check
 			maintenance_window_start = 1;
-			default_phone_region = "DE";
+			default_phone_region = "PL";
 			log_type = "systemd";
 			serverid = 0;
 		};

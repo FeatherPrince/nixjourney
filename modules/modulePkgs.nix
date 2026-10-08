@@ -5,10 +5,15 @@
 	environment.systemPackages = with pkgs; [
 	# this sounds like a reasonable way of splitting packages: cli, tui, gui, plugin, daemon/service and commands (coreutils, etc)
 	# clarification of classification, tui is any INTERACTIVE application that runs in a cli, cli just returns an output
+	# where should services go? into their own category?
 	#######
 	# cli #
 	#######
 	# kbd
+	wl-clipboard
+	sox
+	nix-output-monitor
+	nix-fast-build
 	aria2
 	vulkan-tools
 	lm_sensors
@@ -28,7 +33,7 @@
 	networkmanager
 	SDL2
 	ffmpeg
-	appimage-run	        # allows running appimages
+	# appimage-run	        # allows running appimages
 	bat				            # cat replacement
 	fastfetch
 	yt-dlp
@@ -37,6 +42,13 @@
 	fd		    		        # search for strings inside of files
 	nsh		    		        # search for file names
 	eza			    	        # ls replacement
+	nvd                   # nix version diff tool
+	nh
+	nix-tree
+	nix-du
+	nix-melt
+	nix-query-tree-viewer
+	nix-visualize
 	#######
 	# tui #
 	#######
@@ -72,13 +84,20 @@
 	mpv
 	vlc
 	firefox
-	wezterm
-	vscodium
+	floorp-bin
+	ungoogled-chromium
+	# ladybird
+	# wezterm
+	# ghostty
+	# kitty
+	# vscodium
+	# geany
 	bitwarden-desktop
 	discord
 	gimp
 	krita
 	blender
+	obs-studio
 	libreoffice-stable
 	zed-editor-fhs
 	# feh # requires x11

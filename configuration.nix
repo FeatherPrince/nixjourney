@@ -24,6 +24,7 @@
 	./modules/modulePkgs.nix
 	./modules/modulePrograms.nix
 	./modules/modulePython3.nix
+	./modules/moduleAppimage.nix
 	# ./modules/moduleNextcloud.nix
 	./modules/moduleJellyfin.nix
 	./locale.nix
@@ -45,9 +46,21 @@
   environment.variables = {
     COLORTERM = "truecolor";
   };
-
-
-
+  environment.sessionVariables = {
+    XCURSOR_THEME = "Breeze";
+    XCURSOR_SIZE  = "24";
+  };
+  programs.steam = {
+    extraPackages = with pkgs; [
+      kdePackages.breeze
+    ];
+    package = pkgs.steam.override {
+      extraEnv = {
+        XCURSOR_THEME = "Breeze";
+        XCURSOR_SIZE  = "24";
+      };
+    };
+  };
 
 
 

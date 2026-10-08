@@ -12,8 +12,31 @@
 clear
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &>/dev/null && pwd )
 # echo $SCRIPT_DIR
-CACHE=$(cat $SCRIPT_DIR/../cache)
-# echo $CACHE
+CACHE_DIR=($SCRIPT_DIR/../cache)
+# echo $CACHE_DIR
+# ls $CACHE_DIR
+# cat $CACHE_DIR/profileCache
+
+# DETECT GPU VENDOR
+# 0x1002 = AMD
+# 0x10de = NVIDIA
+# 0x8086 = Intel
+# Virtual machines
+# 0x1af4 = Virtio
+# 0x15ad = VMware
+# 0x1234 = Qemu (wsl)
+# 0x80ee = virtualbox
+# 0x1414 = hyperv
+
+
+vendor=$(for d in /sys/bus/pci/devices/*/; do
+    cls=$(cat "$d/class" 2>/dev/null)
+    case "$cls" in
+        0x03*) cat "$d/vendor"; break ;;
+    esac
+done)
+# rm $CACHE_DIR/gpuCache
+echo $vendor > $CACHE_DIR/gpuCache
 
 # SHORTENED_COMMAND() {
 # 	sudo nixos-rebuild switch --impure --flake "${SCRIPT_DIR}"/../.#
@@ -66,25 +89,25 @@ select opt in "${options[@]}"; do
 		;;
 		"garbage collect all previous configurations")
 			sudo nix-collect-garbage -d &&
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild switch --impure --flake cat $CACHE_DIR/cache &&
 			break
 		;;
 		"rebuild, upgrade and reboot the current configuration")
 			cd ${SCRIPT_DIR}/.. && nix flake update
 			sudo nix-collect-garbage --delete-older-than 30d &&
-			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild boot --impure --flake cat $CACHE_DIR/cache &&
 			sudo reboot now
 			break
 		;;
 		"rebuild the current configuration without upgrading or restarting")
 			# reloads the current configuration, for debugging purposes
-			sudo nixos-rebuild switch --impure --flake ${SCRIPT_DIR}/../.#$CACHE &&
+			sudo nixos-rebuild switch --impure --flake $(cat $CACHE_DIR/cache) &&
 			break
 			# sudo reboot now
 		;;
 		"headless - reboot")
 			VAR="headless"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -92,7 +115,7 @@ select opt in "${options[@]}"; do
 		;;
 		"gnome - reboot")
 			VAR="gnome"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -100,7 +123,7 @@ select opt in "${options[@]}"; do
 		;;
 		"plasma - reboot")
 			VAR="plasma"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -108,7 +131,7 @@ select opt in "${options[@]}"; do
 		;;
 		"hyprland - reboot - deprecated")
 			VAR="hyprland"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -116,7 +139,7 @@ select opt in "${options[@]}"; do
 		;;
 		"noctalia - reboot")
 			VAR="noctalia"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -124,7 +147,7 @@ select opt in "${options[@]}"; do
 		;;
 		"mangowm - reboot")
 			VAR="mangowm"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -132,7 +155,7 @@ select opt in "${options[@]}"; do
 		;;
 		"niri - reboot")
 			VAR="niri"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -140,7 +163,7 @@ select opt in "${options[@]}"; do
 		;;
 		"weston - reboot")
 			VAR="weston"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
@@ -148,7 +171,7 @@ select opt in "${options[@]}"; do
 		;;
 		"river - reboot")
 			VAR="river"
-			sudo echo $VAR > ${SCRIPT_DIR}/../cache &&
+			sudo echo $VAR > $CACHE_DIR/profileCache &&
 			sleep 1 &&
 			sudo nixos-rebuild boot --impure --flake ${SCRIPT_DIR}/../.#$VAR &&
 			# break
