@@ -68,7 +68,7 @@
       save-position-on-quit = true;
       write-filename-in-watch-later-config = true;
     };
-  };
+  };faewf
 
   programs.yt-dlp.enable = true;
   # programs.yt-dlp.extraConfig = ''-P $(xdg-user-dir VIDEOS)/yt-dlp''; # this works, just not when used in the config
