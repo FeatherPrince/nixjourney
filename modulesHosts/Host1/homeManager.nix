@@ -3,7 +3,7 @@
 {
   # home-manager.extraSpecialArgs = { inherit userName; };
   home-manager.users.${userName} = {
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
   };
 
   users.users.${userName} = {

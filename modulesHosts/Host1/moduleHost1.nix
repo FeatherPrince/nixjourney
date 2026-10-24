@@ -12,7 +12,7 @@
 	# include NixOS-WSL modules
 	# inputs.nixos-wsl.nixosModules.default
 	# <nixos-wsl/modules>
-	./homeHost1.nix
+	./homeManager.nix
 
 	# either or, importing hardware-config.nix doesn't work on wsl
 	# ./wsl.nix
