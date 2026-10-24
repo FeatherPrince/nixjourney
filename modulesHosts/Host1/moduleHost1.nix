@@ -12,26 +12,44 @@
 	# include NixOS-WSL modules
 	# inputs.nixos-wsl.nixosModules.default
 	# <nixos-wsl/modules>
-	./homeManager.nix
+	./homeHost1.nix
 
 	# either or, importing hardware-config.nix doesn't work on wsl
 	# ./wsl.nix
 	# or comment out a part of the hardware-config.nix, don't remember what though, teehee
-	/etc/nixos/hardware-configuration.nix
-	./modules/moduleOllama.nix
 	# ./modules/moduleLlama-cpp.nix
-	./modules/moduleOpenTabletDriver.nix
-	./modules/modulePkgs.nix
-	./modules/modulePrograms.nix
-	./modules/modulePython3.nix
-	./modules/moduleAppimage.nix
 	# ./modules/moduleNextcloud.nix
-	./modules/moduleJellyfin.nix
-	./locale.nix
-	./fonts.nix
+	./hardware-configuration.nix
+	../../modules/moduleOllama.nix
+	../../modules/moduleOpenTabletDriver.nix
+	../../modules/modulePkgs.nix
+	../../modules/modulePrograms.nix
+	../../modules/modulePython3.nix
+	../../modules/moduleAppimage.nix
+	../../modules/moduleJellyfin.nix
+	../../modulesShared/modulesSystem/locale.nix
+	../../modulesShared/modulesSystem/fonts.nix
+	../../Profiles/profilePlasma/modulePlasma.nix
 	];
 
+	services.getty = {
+    helpLine     = "nigtmare";
+    # extraArgs    = [];
+    # loginProgram = "";
+    greetingLine = "cock ball torture";
+    # loginOptions = "";
+	};
 
+	# these two make sudo and the tty shell give feedback
+	# environment.etc."login.defs".text = ''
+  #  GETPASS_ASTERISKS yes
+	# '';
+  security.sudo.extraConfig = "
+    Defaults pwfeedback
+  ";
+
+  networking.hostName = "nest";
+  # networking.wireless.iwd.enable = true;
 	# boot.plymouth.enable = true;
 	services.kmscon = {
     enable = true;
@@ -44,26 +62,15 @@
   };
 
   environment.variables = {
-    COLORTERM = "truecolor";
+    COLORTERM   = "truecolor";
+    EDITOR      = "nvim";
+    VISUAL      = "nvim";
+    SOPS_EDITOR = "nvim";
   };
   environment.sessionVariables = {
     XCURSOR_THEME = "Breeze";
     XCURSOR_SIZE  = "24";
   };
-  programs.steam = {
-    extraPackages = with pkgs; [
-      kdePackages.breeze
-    ];
-    package = pkgs.steam.override {
-      extraEnv = {
-        XCURSOR_THEME = "Breeze";
-        XCURSOR_SIZE  = "24";
-      };
-    };
-  };
-
-
-
 
 	# Bootloader.
 	boot.loader.systemd-boot.enable = true;
@@ -75,18 +82,39 @@
 	''; # I'm using "" instead of '''' because I think it looks nicer, fuck you
 
 	# programs.zsh = {
-	# 	enable = true;
-	# 	autosuggestions.enable = true;
-	# 	syntaxHighlighting.enable = true;
-	# 	enableCompletion = true;
-	# 	shellAliases = {
-	# 		cat = "bat";
-	# 		ls = "eza --icons=always -X -F=always";
-	# 	};
-	# };
+ #    enable = true;
+ #    enableCompletion = true;
+ #    # zsh-abbr.enable = true;
+ #    syntaxHighlighting.enable = true;
+ #    oh-my-zsh.enable = true;
+ #    # fastSyntaxHighlighting.enable = true;
+ #    autosuggestions = {
+ #      enable = true;
+ #      # async  = true;
+ #      # highlight = "fg=#ff00ff,bg=cyan,bold,underline";
+ #      strategy    = [ "completion" "history" "match_prev_cmd" ];
+ #      extraConfig = {
+ #        # "ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE" = "20";
+ #        "ZSH_AUTOSUGGEST_BUFFER_MIN_SIZE" = "1";
+ #      };
+ #    };
+ #    shellAliases = {
+ #      ls        = "eza --icons=always -F=always";
+ #      ll        = "eza --icons=always -F=always -l";
+ #      la        = "eza --icons=always -F=always -a";
+ #      lt        = "eza --icons=always -F=always --tree";
+ #      lla       = "eza --icons=always -F=always -la";
+ #      cat       = "bat";
+ #      yt-dlp    = "yt-dlp -P $(xdg-user-dir)/yt-dlp";
+ #      sops-edit = "sudo SOPS_EDITOR=micro SOPS_AGE_KEY_FILE=/var/lib/sops-nix/key.txt sops ~/nixjourney/secrets/featherlabs.yaml";
+ #    };
+ #  };
 
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 	users.users.${userName} = {
-		# shell = pkgs.zsh;
+		shell = pkgs.zsh;
+		# shell = pkgs.fish;
 		extraGroups = [ "networkmanager" "wheel" ];
 	};
 
@@ -108,5 +136,5 @@
 	# this value at the release version of the first install of this system.
 	# Before changing this value read the documentation for this option
 	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-	system.stateVersion = "25.11"; # Did you read the comment?
+	system.stateVersion = "26.05"; # Did you read the comment?
 }

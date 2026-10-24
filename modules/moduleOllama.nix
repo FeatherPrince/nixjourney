@@ -12,7 +12,10 @@
 			# "deepseek-coder:1.3b"	# 776 MB
 			# "deepseek-coder:6.7b"	#
 			# "deepseek-coder-v2:16b"	#
-			# ollama run hf.co/prism-ml/Ternary-Bonsai-2-27B-gguf:Q2_0
+			"bonsai-2:2b"
+			"bonsai-2:4b"
+			"bonsai-2:9b"
+			"bonsai-2:27b"
 		];
 
 		# OPTIONAL: Enable GPU acceleration (Uncomment the one you need)
@@ -62,4 +65,8 @@
 	# 	vulkan-tools
 	# 	ollama # For the CLI tool
 	# ];
+	# services.open-webui = {
+	#   enable = true;
+	# 	port = 11111;
+	# };
 }

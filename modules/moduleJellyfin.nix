@@ -1,11 +1,10 @@
 { config, lib, pkgs, userName, ... }:
 
 let
-  flakeRoot = ../.;  # only if the module is 2 levels deep
-  domain  = "featherlabs.fyi";
-  authUrl = "https://auth.${domain}";
-  tunnelID = "a525368b-2937-4b9c-be2b-57e509148a92";
-
+  flakeRoot   = ../.;  # only if the module is 2 levels deep
+  domain      = "featherlabs.fyi";
+  authUrl     = "https://auth.${domain}";
+  tunnelID    = "a525368b-2937-4b9c-be2b-57e509148a92";
   certFile    = "/var/lib/acme/${domain}/fullchain.pem";
   certKeyFile = "/var/lib/acme/${domain}/key.pem";
 
@@ -37,7 +36,8 @@ in
       nextcloud-db-password          = { owner = "nextcloud"; mode = "0400"; };
       homarr-oidc-secret             = { owner = "kanidm"; group = "kanidm"; mode = "0440"; };
       homarr-secret-encryption-key   = { owner = "root";   mode = "0400"; };
-      # add immich-oidc-secret / nextcloud-oidc-secret if you wire OIDC there
+      forgejo-db-password            = { owner = "forgejo"; mode = "0400"; };
+      forgejo-oidc-secret            = { owner = "kanidm"; group = "kanidm"; mode = "0440"; };
     };
   };
 
@@ -59,34 +59,33 @@ in
   # ── Users / groups / dirs ──────────────────────────────────────────
   users.groups.media = {};
   # kanidmd needs to read the acme cert; add it to nginx group (cert group)
-  users.users.kanidm.extraGroups = [ "nginx" ];
-
-  users.users.immich.extraGroups     = [ "media" "video" "render" ];
-  users.users.jellyfin.extraGroups   = [ "media" "video" "render" ];
-  users.users.sonarr.extraGroups     = [ "media" ];
-  users.users.radarr.extraGroups     = [ "media" ];
-  users.users.whisparr.extraGroups   = [ "media" ];
+  users.users.kanidm.extraGroups       = [ "nginx" ];
+  users.users.immich.extraGroups       = [ "media" "video" "render" ];
+  users.users.jellyfin.extraGroups     = [ "media" "video" "render" ];
+  users.users.sonarr.extraGroups       = [ "media" ];
+  users.users.radarr.extraGroups       = [ "media" ];
+  users.users.whisparr.extraGroups     = [ "media" ];
   users.users.transmission.extraGroups = [ "media" ];
 
   systemd.tmpfiles.rules = [
-    "d /srv/media                      2775 root    media -"
-    "d /srv/media/movies               2775 root    media -"
-    "d /srv/media/shows                2775 root    media -"
-    "d /srv/media/music                2775 root    media -"
-    "d /srv/media/downloads            2775 root    media -"
-    "d /srv/media/downloads/incomplete 2775 root    media -"
-    "d /srv/media/downloads/watch      2775 root    media -"
-    "d /srv/media/downloads/radarr     2775 root    media -"
-    "d /srv/media/downloads/tv-sonarr  2775 root    media -"
-    "d /srv/media/immich               2775 root    media -"
-    "d /srv/media/immich/upload        2775 immich  media -"
-    "d /srv/media/immich/encoded-video 2775 immich  media -"
-    "d /srv/media/immich/thumbs        2775 immich  media -"
-    "d /srv/media/immich/backups       2775 immich  media -"
-    "d /srv/media/immich/library       2775 immich  media -"
-    "d /srv/media/immich/profile       2775 immich  media -"
-    "d /var/lib/dashy                  0775 dashy   root  -"
-    "d /var/lib/cloudflared            0775 cloudflared root -"
+    "d /srv/media                      2775 root        media -"
+    "d /srv/media/movies               2775 root        media -"
+    "d /srv/media/shows                2775 root        media -"
+    "d /srv/media/music                2775 root        media -"
+    "d /srv/media/downloads            2775 root        media -"
+    "d /srv/media/downloads/incomplete 2775 root        media -"
+    "d /srv/media/downloads/watch      2775 root        media -"
+    "d /srv/media/downloads/radarr     2775 root        media -"
+    "d /srv/media/downloads/tv-sonarr  2775 root        media -"
+    "d /srv/media/immich               2775 root        media -"
+    "d /srv/media/immich/upload        2775 immich      media -"
+    "d /srv/media/immich/encoded-video 2775 immich      media -"
+    "d /srv/media/immich/thumbs        2775 immich      media -"
+    "d /srv/media/immich/backups       2775 immich      media -"
+    "d /srv/media/immich/library       2775 immich      media -"
+    "d /srv/media/immich/profile       2775 immich      media -"
+    "d /var/lib/dashy                  0775 dashy       root  -"
+    "d /var/lib/cloudflared            0775 cloudflared root  -"
     # "d /var/lib/nextcloud              0750 nextcloud nextcloud -"
     # "d /var/lib/nextcloud/config       0750 nextcloud nextcloud -"
   ];
@@ -100,6 +99,7 @@ in
     ensureUsers = [
       { name = "nextcloud"; ensureDBOwnership = true; }
       { name = "gitea";     ensureDBOwnership = true; }
+      { name = "forgejo";   ensureDBOwnership = true; }
     ];
     authentication = lib.mkForce ''
       local all all              peer
@@ -125,6 +125,95 @@ in
     after    = [ "sops-install-secrets.service" "postgresql.service" ];
     wants    = [ "sops-install-secrets.service" ];
     requires = [ "postgresql.service" ];
+  };
+
+  # ── Forgejo ────────────────────────────────────────────────────────
+  services.forgejo = {
+    enable = true;
+    user   = "forgejo";
+    group  = "forgejo";
+    database = {
+      type         = "postgres";
+      passwordFile = config.sops.secrets.forgejo-db-password.path;
+    };
+    settings = {
+      DEFAULT.APP_NAME = "Featherlabs Git";
+      server = {
+        # DOMAIN                   = "git.${domain}";
+        ROOT_URL                 = "https://forgejo.${domain}/";
+        HTTP_ADDR                = "127.0.0.1";
+        HTTP_PORT                = 3002;
+        ENABLE_FORWARDED_HEADERS = true;
+      };
+      service = {
+      DISABLE_REGISTRATION                  = false;
+      ALLOW_ONLY_EXTERNAL_REGISTRATION      = true;
+      };
+      oauth2_client = {
+        ENABLE_AUTO_REGISTRATION            = true;
+        # ACCOUNT_LINKING                     = "auto";
+        KANIDM_PROVIDER                     = "openidConnect";
+        KANIDM_CLIENT_ID                    = "forgejo";
+        KANIDM_CLIENT_SECRET                = "placeholder-overridden-by-env";
+        KANIDM_OPENID_CONNECT_DISCOVERY_URL = "${authUrl}/oauth2/openid/forgejo/.well-known/openid-configuration";
+        KANIDM_SCOPES                       = "openid email profile";
+      };
+    };
+  };
+
+  systemd.services.forgejo-oauth-setup = {
+    description = "Ensure Forgejo Kanidm OAuth2 auth source exists and matches sops secret";
+    after    = [ "forgejo.service" "sops-install-secrets.service" ];
+    wants    = [ "forgejo.service" "sops-install-secrets.service" ];
+    requires = [ "forgejo.service" ];
+
+    path = with pkgs; [ coreutils gawk forgejo ];
+
+    serviceConfig = {
+      Type            = "oneshot";
+      RemainAfterExit = true;
+      User            = "forgejo";
+      Group           = "forgejo";
+      # systemd reads the file as root, hands it to forgejo via $CREDENTIALS_DIRECTORY
+      LoadCredential  = "forgejo-oidc-secret:${config.sops.secrets.forgejo-oidc-secret.path}";
+      ExecStart = pkgs.writeShellScript "forgejo-oauth-setup" ''
+        set -euo pipefail
+
+        FORGEJO_CONFIG="/var/lib/forgejo/custom/conf/app.ini"
+        FORGEJO_WORK="/var/lib/forgejo"
+        SECRET="$(cat "$CREDENTIALS_DIRECTORY/forgejo-oidc-secret")"
+        NAME="kanidm"
+        DISCOVERY="https://auth.${domain}/oauth2/openid/forgejo/.well-known/openid-configuration"
+
+        # `|| true` on the pipeline so `set -e` + `pipefail` doesn't abort
+        # when awk finds no match (first run, no existing source).
+        EXISTING_ID="$(forgejo admin auth list \
+          --config "$FORGEJO_CONFIG" \
+          --work-path "$FORGEJO_WORK" \
+          | awk -v name="$NAME" '$2 == name { print $1 }' \
+          | head -n1 || true)"
+
+        if [ -z "$EXISTING_ID" ]; then
+          echo "Creating Forgejo OAuth2 auth source '$NAME'"
+          forgejo admin auth add-oauth \
+            --config "$FORGEJO_CONFIG" \
+            --work-path "$FORGEJO_WORK" \
+            --name "$NAME" \
+            --provider "openidConnect" \
+            --key "forgejo" \
+            --secret "$SECRET" \
+            --auto-discover-url "$DISCOVERY" \
+            --scopes "email profile"
+        else
+          echo "Updating existing Forgejo OAuth2 auth source '$NAME' (id $EXISTING_ID)"
+          forgejo admin auth update-oauth \
+            --config "$FORGEJO_CONFIG" \
+            --work-path "$FORGEJO_WORK" \
+            --id "$EXISTING_ID" \
+            --secret "$SECRET"
+        fi
+      '';
+    };
   };
 
   # ── Gitea ──────────────────────────────────────────────────────────
@@ -222,7 +311,7 @@ in
     hostName = "nextcloud.${domain}";
     https    = false;
     config = {
-      adminpassFile = config.sops.secrets.nextcloud-admin-password.path;
+      # adminpassFile = config.sops.secrets.nextcloud-admin-password.path;
       dbtype        = "pgsql";
       # dbpassFile    = config.sops.secrets.nextcloud-db-password.path;
     };
@@ -328,6 +417,7 @@ in
         seerr_users.members     = [ "feather" ];
         homarr_users.members    = [ "feather" ];
         homarr_admins.members   = [ "feather" ];
+        forgejo_users.members   = [ "feather" ];
       };
 
       persons = {
@@ -335,7 +425,7 @@ in
           displayName   = "Feather";
           legalName     = "Feather";
           mailAddresses = [ "featherprinceyt@gmail.com" ];
-          groups        = [ "gitea_users" "immich_users" "immich_admins" "nextcloud_users" "seerr_users" "homarr_users" "homarr_admins" ];
+          groups        = [ "gitea_users" "immich_users" "immich_admins" "nextcloud_users" "seerr_users" "homarr_users" "homarr_admins" "forgejo_users" ];
         };
         # greta = {
         #   displayName   = "Greta";
@@ -366,6 +456,15 @@ in
           basicSecretFile     = config.sops.secrets.gitea-oidc-secret.path;
           preferShortUsername = true;   # ← essential
           scopeMaps.gitea_users = [ "openid" "email" "profile" ];
+          allowInsecureClientDisablePkce = true;
+        };
+        forgejo = {
+          displayName         = "Forgejo";
+          originLanding       = "https://forgejo.${domain}";
+          originUrl           = "https://forgejo.${domain}/user/oauth2/kanidm/callback";
+          basicSecretFile     = config.sops.secrets.forgejo-oidc-secret.path;
+          preferShortUsername = true;
+          scopeMaps.forgejo_users = [ "openid" "email" "profile" ];
           allowInsecureClientDisablePkce = true;
         };
         immich = {
@@ -479,6 +578,17 @@ in
         };
       };
 
+      "forgejo.${domain}" = {
+        addSSL            = true;
+        sslCertificate    = certFile;
+        sslCertificateKey = certKeyFile;
+        locations."/" = {
+          proxyPass       = "http://127.0.0.1:3002";
+          proxyWebsockets = true;
+          extraConfig     = "client_max_body_size 512M;";
+        };
+      };
+
       "auth.${domain}" = {
         addSSL            = true;
         sslCertificate    = certFile;
@@ -514,7 +624,7 @@ in
 
   # ── Cloudflare Tunnel ──────────────────────────────────────────────
   services.cloudflared = {
-    enable = true;
+    enable = false;
     tunnels."${tunnelID}" = {
       credentialsFile = "/var/lib/cloudflared/creds.json";
       default         = "http_status:404";
@@ -558,7 +668,7 @@ in
     ports = [ "127.0.0.1:7575:3000" ];
     volumes = [
       "homarr-data:/appdata"
-      "/var/run/docker.sock:/var/run/docker.sock:ro"  # commented out unless you want Docker integration
+      "/var/run/docker.sock:/var/run/docker.sock:ro"
     ];
 
     # Secrets come from this file
@@ -614,6 +724,7 @@ in
     127.0.0.1 transmission.${domain}
     127.0.0.1 whisparr.${domain}
     127.0.0.1 homarr.${domain}
+    127.0.0.1 forgejo.${domain}
   '';
 
   networking.firewall.allowedTCPPorts = [ 25 80 443 ];
