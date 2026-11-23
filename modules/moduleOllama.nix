@@ -5,7 +5,8 @@
 	# services.nextjs-ollama-llm-ui.enable = true;
 	users.users.ollama.extraGroups = [ "video" "render" ]; # this is important, this gives ollama relevant permissions to use the gpu
 	services.ollama = {
-		enable = true;
+		enable     = true;
+		syncModels = true; # prunes models that are not listed in loadModels
 		loadModels = [
 			# "qwen3.8:27b"			#
 			# "deepseek-r1:14b"		#

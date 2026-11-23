@@ -23,7 +23,7 @@
 	mdadm                 # raid manager
 	cryptsetup            #
 	bubblewrap            #
-	is-fast               #
+	# is-fast               #
 	surfraw               #
 	clinfo                #
 	duf                   # disk usage free
@@ -38,7 +38,8 @@
 	SDL2                  #
 	file                  # displays file properties
 	ffmpeg                # image and video manipulation
-	appimage-run	        # allows running appimages
+	# appimage-run	        # allows running appimages
+	(pkgs.appimage-run.override { extraPkgs = pkgs: [ pkgs.libgpg-error pkgs.SDL2 pkgs.openal ]; }) # adds missing dependency when launching an app through appimage-run
 	bat				            # drop in cat replacement
 	eza			    	        # modern ls replacement and extension
 	zoxide                # modern cd replacement and extension
@@ -75,9 +76,10 @@
 	#######
 	# tui #
 	#######
+	# rexi                  # regex visualisation tool
 	# mapscii             #
-	tuios                 #
-	ncdu	    		        # ncurses disk utility
+	# tuios                 #
+	# ncdu	    		        # ncurses disk utility
 	gdu			    	        # disk utility written in go
 	# amdtop              #
 	nvtopPackages.full    #
@@ -85,13 +87,13 @@
 	rocmPackages.rocminfo #
 	rocmPackages.rocm-smi #
 	btop			            # Resource monitor with extras
-	abtop                 # ai resource monitor
+	# abtop                 # ai resource monitor
 	# btop-rocm		        #
 	# btop-cuda		        #
 	superfile		          # TUI file manager
-	yazi                  # TUI file manager
-	nnn                   # TUI file manager
-	mc                    # TUI file manager
+	# yazi                  # TUI file manager
+	# nnn                   # TUI file manager
+	# mc                    # TUI file manager
 	# tuxedo                #
 	impala			          # 🛜 TUI for managing wifi on Linux, requires iwd daemon
 	bluetui               # TUI for managing bluetooth on Linux
@@ -100,10 +102,10 @@
 	usbtop                #
 	micro                 # text editor
 	neovim                # neo vi modern text editor
-	vis                   # vim-like text editor
-	helix                 # a post modern text editor
-	ueberzugpp            # renders images on top of the terminal
-	chafa                 # render images in the terminal using glyphs
+	# vis                   # vim-like text editor
+	# helix                 # a post modern text editor
+	# ueberzugpp            # renders images on top of the terminal
+	# chafa                 # render images in the terminal using glyphs
 	broot                 # fzf with a file tree
 	skim                  # fzf but faster
 	television            # fzf with a preview
@@ -111,18 +113,20 @@
 	# gui #
 	#######
 	obsidian             #
-	neovide              # neovim but in gui mode
-	xev                   # x11 event view
-	wev                   # wayland event view
+	# neovide              # neovim but in gui mode
+	xev                  # x11 event view
+	wev                  # wayland event view
 	firefox              # gui web browser
-	brave
+	# brave                # gui web browser
+	brave-origin         # gui web browser
 	floorp-bin           # gui web browser
-	ungoogled-chromium   # gui web browser
-	# ladybird           # gui web browser
+	# ungoogled-chromium   # gui web browser
+	ladybird           # gui web browser
 	# wezterm            # terminal emulator
 	# ghostty            # terminal emulator
 	# kitty              # terminal emulator
 	bitwarden-desktop    # password manager
+	dirbuster            #
 	discord              #
 	inkscape             # vector graphics
 	gimp                 # raster graphics
@@ -130,25 +134,39 @@
 	krita                # raster graphics
 	mypaint              # raster graphics
 	blender              # 3d modeling, animation, etc
+	kdePackages.kdenlive
 	obs-studio           # screen capture and livestreaming softwre
 	libreoffice-stable   #
 	zed-editor-fhs       # integrated development environment
+	godot
 	# geany              # integrated development environment
 	# vscodium           # integrated development environment
 	# feh                # x11 image viewer
 	imv                  # wayland image viewer
 	mpv                  # multimedia player
-	vlc                  # multimedia player
-	pcmanfm              # file manager
-	pcmanfm-qt           # file manager
+	kopuz                # audio player
+	spotify              # spotify
+	# vlc                  # multimedia player
+	# anki
+	# wireshark
+	# pcmanfm            # file manager
+	# pcmanfm-qt         # file manager
+	thunar               # file manager; file search is INSTANT, pretty neat
+	# keepass
+	# keepassxc
 
 	#########
-	# games #
+	# games # installing games through the package manager is ill advised because then the game version depends on the pacage manager
 	#########
-	beyond-all-reason
-	osu-lazer-bin
+	# beyond-all-reason
+	# osu-lazer-bin        # package manager manages version
 	###########
 	# plugins #
 	###########
 	];
+	#########################
+	# appimage dependencies # this doesn't work, not sure how to use it, fixed by applying overrides to the appimage package
+	#########################
+	# programs.nix-ld.enable = true;
+	# programs.nix-ld.libraries = with pkgs; [ libgpg-error openal ];
 }

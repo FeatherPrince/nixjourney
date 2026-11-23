@@ -2,18 +2,6 @@
 
 
 {
-  home-manager.users.${userName} = {
-  home.stateVersion = "26.05";
-  };
-
-  users.users.${userName} = {
-    isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-
-    ];
-  };
-
   imports = [
     ./home/homeZsh.nix
     ./home/homeNeovim.nix
@@ -26,10 +14,14 @@
     lt        = "eza --icons=always -F=always --tree";
     lla       = "eza --icons=always -F=always -la";
     cat       = "bat";
-    yt-dlp    = "yt-dlp -P $(xdg-user-dir)/yt-dlp --throttled-rate 100K";
+    yt-dlp    = "yt-dlp -P $(xdg-user-dir)/yt-dlp --throttled-rate 100K"; # download files into yt-dlp home directory and restart the download when speed drops below 100K
     sops-edit = "sudo SOPS_AGE_KEY_FILE=/var/lib/sops-nix/key.txt sops ~/nixjourney/secrets/featherlabs.yaml"; # SOPS_EDITOR=nvim
     vi        = "nvim";
     vim       = "nvim";
+    # nfu       = "nix flake update";
+    # nfc       = "nix flake check --impure";
+    # nfi       = "nh os boot --impure";
+    # nfx       = "nh os clear all";
   };
 
   home.pointerCursor = {
@@ -45,14 +37,10 @@
     enable = true;
     package = pkgs.git.override { withLibsecret = true; };
 
-    settings = {
-      credential.helper = "libsecret";
-    };
+    settings = { credential.helper = "libsecret"; };
   };
 
-  programs.lutris = {
-    enable = true;
-  };
+  programs.lutris = { enable = true; };
 
   programs.kitty = {
     enable = true;

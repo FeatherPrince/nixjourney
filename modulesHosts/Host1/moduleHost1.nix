@@ -12,7 +12,6 @@
 	# include NixOS-WSL modules
 	# inputs.nixos-wsl.nixosModules.default
 	# <nixos-wsl/modules>
-	./homeManager.nix
 
 	# either or, importing hardware-config.nix doesn't work on wsl
 	# ./wsl.nix
@@ -20,17 +19,62 @@
 	# ./modules/moduleLlama-cpp.nix
 	# ./modules/moduleNextcloud.nix
 	./hardware-configuration.nix
+	# ../../modules/moduleJellyfin.nix
 	../../modules/moduleOllama.nix
 	../../modules/moduleOpenTabletDriver.nix
 	../../modules/modulePkgs.nix
 	../../modules/modulePrograms.nix
 	../../modules/modulePython3.nix
 	../../modules/moduleAppimage.nix
-	../../modules/moduleJellyfin.nix
 	../../modulesShared/modulesSystem/locale.nix
 	../../modulesShared/modulesSystem/fonts.nix
 	../../Profiles/profilePlasma/modulePlasma.nix
 	];
+  ### home block
+  # https://github.com/nix-community/home-manager
+  # home-manager.extraSpecialArgs = { inherit userName; };
+  home-manager.users.${userName} = {
+  home.stateVersion = "26.05";
+  };
+  users.users.${userName} = {
+    isNormalUser = true;
+    extraGroups = [ "networkmanager" "wheel" ];
+    packages = with pkgs; [
+
+    ];
+    shell = pkgs.zsh;
+    # shell = pkgs.fish;
+  };
+  ###
+
+  nix.gc = {
+    automatic = true;                      # enables a systemd timer that runs the garbage collector on a schedule.
+    dates = "daily";                       # dates sets how often it runs. It uses systemd calendar syntax, so "daily", "weekly", "Sun 03:00", etc. all work.
+    options = "--delete-older-than 28d";   # options is passed to nix-collect-garbage. --delete-older-than 30d removes old system generations (and their now-unreferenced store paths) older than 30 days. Without it, only store paths that are already unreferenced get deleted, and old generations keep everything they use alive.
+    persistent = true;                     # run a missed job at next boot (default is true)
+    randomizedDelaySec = "45min";          # spread out the start time
+  };
+
+  services.gvfs.enable    = true;          # Mount, trash, and other functionalities
+  services.tumbler.enable = true;          # Thumbnail support for images
+  services.udisks2.enable = true;
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs; [ thunar-archive-plugin thunar-volman thunar-media-tags-plugin ];
+  };
+
+  environment.systemPackages = with pkgs; [
+    # ... your other packages
+    xapp-thumbnailers
+    udiskie
+  ];
+
+  services.flatpak.enable = true;
+  services.flatpak.package = pkgs.flatpak;
+  # xdg.portal.enable = false;
+
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 
 	services.getty = {
     helpLine     = "nigtmare";
@@ -48,9 +92,25 @@
     Defaults pwfeedback
   ";
 
+  boot.initrd.kernelModules = [ "amdgpu" ]; # "i915", "nouveau", "nvidia" etc.
+  hardware.enableRedistributableFirmware = true;
+
+  console = {
+    earlySetup = true;
+    packages = [ pkgs.terminus_font ];
+    font = "ter-v32n";   # or ter-v28n / ter-v24n, depending on screen size
+  };
+
   networking.hostName = "nest";
   # networking.wireless.iwd.enable = true;
 	# boot.plymouth.enable = true;
+
+	services.bootvine.settings = {
+	  enable = false;
+    colors.tree.running-marker = "light-yellow";
+    timing.keep-final-frame-for = "500ms";
+	};
+
 	services.kmscon = {
     enable = true;
     config = { };
@@ -70,6 +130,12 @@
   environment.sessionVariables = {
     XCURSOR_THEME = "Breeze";
     XCURSOR_SIZE  = "24";
+    # this makes sure the correct gpu is selected as the primary one
+    # `ls -l /dev/dri/by-path/` # this returns pci address of all gpus
+    # `lspci | grep -i vga`     #
+    # `vulkaninfo --summary`
+    MESA_VK_DEVICE_SELECT = "1002:7590"; # "{vendorID}:{deviceID}" from `vulkaninfo --summary`
+    # MESA_VK_DEVICE_SELECT_FORCE_DEFAULT_DEVICE = "1"; # this hides all gpus but the selected ones from vulkan, still visible to the kernel
   };
 
 	# Bootloader.
@@ -110,13 +176,7 @@
  #    };
  #  };
 
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-	users.users.${userName} = {
-		shell = pkgs.zsh;
-		# shell = pkgs.fish;
-		extraGroups = [ "networkmanager" "wheel" ];
-	};
+
 
 	# Enable CUPS to print documents.
 	services.printing.enable = true;

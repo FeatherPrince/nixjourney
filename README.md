@@ -59,6 +59,7 @@ https://exten.pages.dev/multi/index.json
 https://exten.pages.dev/nzb/index.json
 -->
 
+
 # Architecting the server
 connection types
 - host   - from host machine
@@ -91,3 +92,6 @@ nginx for reverse proxy
   - gridcraft
 - beyond all reason
 - osu
+
+# notes about nixos
+home manager must be enabled in the system module and then the home module can be fed into the flake
